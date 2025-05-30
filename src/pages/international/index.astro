@@ -1,0 +1,184 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+
+const programs = [
+  {
+    title: "Échanges académiques",
+    description: "Passez un semestre ou une année dans l'une de nos universités partenaires.",
+    image: "https://images.pexels.com/photos/2305098/pexels-photo-2305098.jpeg"
+  },
+  {
+    title: "Doubles diplômes",
+    description: "Obtenez deux diplômes grâce à nos partenariats internationaux.",
+    image: "https://images.pexels.com/photos/1205651/pexels-photo-1205651.jpeg"
+  },
+  {
+    title: "Stages à l'étranger",
+    description: "Développez votre expérience professionnelle à l'international.",
+    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg"
+  }
+];
+
+const regions = [
+  {
+    name: "Europe",
+    countries: ["Allemagne", "Espagne", "Royaume-Uni", "Italie"],
+    universities: 45
+  },
+  {
+    name: "Amérique du Nord",
+    countries: ["États-Unis", "Canada"],
+    universities: 25
+  },
+  {
+    name: "Asie",
+    countries: ["Japon", "Chine", "Corée du Sud"],
+    universities: 30
+  },
+  {
+    name: "Océanie",
+    countries: ["Australie", "Nouvelle-Zélande"],
+    universities: 10
+  }
+];
+---
+
+<Layout 
+  title="International"
+  description="Découvrez nos programmes internationaux et nos partenariats avec des universités du monde entier."
+>
+  <Hero
+    title="International"
+    subtitle="Une ouverture sur le monde"
+    height="medium"
+  />
+
+  <section class="section bg-white">
+    <div class="container">
+      <h2 class="text-center mb-12">Nos programmes internationaux</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {programs.map(program => (
+          <div class="card overflow-hidden group">
+            <div class="relative h-48 overflow-hidden">
+              <img 
+                src={program.image} 
+                alt={program.title}
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">{program.title}</h3>
+            </div>
+            <div class="p-6">
+              <p class="text-secondary-600 mb-4">{program.description}</p>
+              <a href={`/international/${program.title.toLowerCase().replace(/ /g, '-')}`} class="btn btn-primary w-full">
+                En savoir plus
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-gray-50">
+    <div class="container">
+      <h2 class="text-center mb-12">Nos partenaires par région</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {regions.map(region => (
+          <div class="bg-white p-6 rounded-lg shadow-soft">
+            <h3 class="text-xl font-bold mb-4">{region.name}</h3>
+            <p class="text-primary-600 font-bold mb-2">{region.universities} universités partenaires</p>
+            <h4 class="font-medium mb-2">Pays principaux :</h4>
+            <ul class="space-y-1">
+              {region.countries.map(country => (
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  {country}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div>
+          <h2 class="mb-6">Venir étudier à M2E Polytech</h2>
+          <p class="text-lg text-secondary-700 mb-6">
+            Nous accueillons chaque année des étudiants internationaux dans nos différents programmes.
+          </p>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-semibold">Programmes en anglais</h3>
+                <p>Plusieurs formations dispensées entièrement en anglais.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-semibold">Accompagnement personnalisé</h3>
+                <p>Une équipe dédiée pour vous aider dans vos démarches.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-semibold">Cours de français</h3>
+                <p>Des cours de français langue étrangère gratuits.</p>
+              </div>
+            </div>
+          </div>
+          <a href="/international/venir-etudier" class="btn btn-primary">
+            Comment candidater
+          </a>
+        </div>
+        <div>
+          <h2 class="mb-6">Partir à l'étranger</h2>
+          <p class="text-lg text-secondary-700 mb-6">
+            De nombreuses opportunités pour internationaliser votre parcours.
+          </p>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-semibold">Bourses de mobilité</h3>
+                <p>Différentes aides financières pour votre séjour.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-semibold">Validation des acquis</h3>
+                <p>Reconnaissance des crédits obtenus à l'étranger.</p>
+              </div>
+            </div>
+          </div>
+          <a href="/international/partir" class="btn btn-primary">
+            Préparer son départ
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

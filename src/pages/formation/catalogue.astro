@@ -1,0 +1,124 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+
+const formations = [
+  {
+    title: "Génie Énergétique",
+    description: "Formation d'ingénieur spécialisée dans la conception et l'optimisation des systèmes énergétiques.",
+    duration: "3 ans",
+    degree: "Diplôme d'ingénieur",
+    image: "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg"
+  },
+  {
+    title: "Environnement et Développement Durable",
+    description: "Formation axée sur la gestion environnementale et les solutions durables.",
+    duration: "3 ans",
+    degree: "Diplôme d'ingénieur",
+    image: "https://images.pexels.com/photos/327533/pexels-photo-327533.jpeg"
+  },
+  {
+    title: "Informatique et Systèmes",
+    description: "Formation en informatique, réseaux et systèmes d'information.",
+    duration: "3 ans",
+    degree: "Diplôme d'ingénieur",
+    image: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg"
+  }
+];
+---
+
+<Layout 
+  title="Catalogue des formations"
+  description="Découvrez l'ensemble des formations proposées par M2E Polytech : diplômes d'ingénieur, masters et formations continues."
+>
+  <Hero
+    title="Catalogue des formations"
+    subtitle="Explorez nos formations d'excellence dans les domaines de l'énergie, de l'environnement et du numérique."
+    height="small"
+  />
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {formations.map(formation => (
+          <div class="card overflow-hidden group">
+            <div class="relative h-48 overflow-hidden">
+              <img 
+                src={formation.image} 
+                alt="" 
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 text-white">
+                <h3 class="text-xl font-bold">{formation.title}</h3>
+                <p class="text-sm">{formation.degree} • {formation.duration}</p>
+              </div>
+            </div>
+            <div class="p-6">
+              <p class="text-secondary-600 mb-4">{formation.description}</p>
+              <div class="space-y-4">
+                <h4 class="font-semibold">Points clés :</h4>
+                <ul class="space-y-2">
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Stage en entreprise
+                  </li>
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Projets pratiques
+                  </li>
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Partenariats industriels
+                  </li>
+                </ul>
+                <a href={`/formation/${formation.title.toLowerCase().replace(/ /g, '-')}`} class="btn btn-primary w-full mt-6">
+                  En savoir plus
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold mb-6">Processus d'admission</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="p-6 bg-primary-50 rounded-lg">
+            <div class="text-primary-600 mb-4">
+              <span class="text-4xl font-bold">1</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Candidature</h3>
+            <p>Déposez votre dossier de candidature en ligne avec les pièces justificatives requises.</p>
+          </div>
+          <div class="p-6 bg-primary-50 rounded-lg">
+            <div class="text-primary-600 mb-4">
+              <span class="text-4xl font-bold">2</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Sélection</h3>
+            <p>Étude de votre dossier par notre commission d'admission.</p>
+          </div>
+          <div class="p-6 bg-primary-50 rounded-lg">
+            <div class="text-primary-600 mb-4">
+              <span class="text-4xl font-bold">3</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Admission</h3>
+            <p>Réponse d'admission et accompagnement dans vos démarches d'inscription.</p>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href="/admission" class="btn btn-primary">
+            Candidater maintenant
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

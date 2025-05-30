@@ -1,0 +1,160 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import NewsCard from '../../components/NewsCard.astro';
+
+const news = [
+  {
+    title: "Journées portes ouvertes 2025",
+    date: "2025-01-15",
+    excerpt: "Venez découvrir nos campus et nos formations lors des journées portes ouvertes qui se tiendront du 15 au 17 février 2025.",
+    image: "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg",
+    url: "/actualites/journees-portes-ouvertes-2025",
+    category: "Événement"
+  },
+  {
+    title: "Nouveau partenariat international avec l'université de Tokyo",
+    date: "2025-01-10",
+    excerpt: "M2E Polytech renforce sa présence à l'international avec un nouveau partenariat avec l'université de Tokyo.",
+    image: "https://images.pexels.com/photos/1563256/pexels-photo-1563256.jpeg",
+    url: "/actualites/partenariat-tokyo",
+    category: "International"
+  },
+  {
+    title: "Lancement du nouveau Master en Intelligence Artificielle",
+    date: "2025-01-05",
+    excerpt: "À partir de septembre 2025, M2E Polytech proposera un nouveau Master spécialisé en Intelligence Artificielle et Systèmes Autonomes.",
+    image: "https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg",
+    url: "/actualites/master-intelligence-artificielle",
+    category: "Formation"
+  },
+  {
+    title: "Succès pour la journée recherche 2024",
+    date: "2024-12-15",
+    excerpt: "Plus de 200 chercheurs et industriels ont participé à notre journée annuelle de la recherche.",
+    image: "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg",
+    url: "/actualites/journee-recherche-2024",
+    category: "Recherche"
+  },
+  {
+    title: "Nos étudiants récompensés au concours national d'innovation",
+    date: "2024-12-10",
+    excerpt: "L'équipe de M2E Polytech remporte le premier prix du concours national d'innovation étudiante.",
+    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg",
+    url: "/actualites/prix-innovation-2024",
+    category: "Étudiants"
+  },
+  {
+    title: "Nouvelle plateforme expérimentale pour l'énergie solaire",
+    date: "2024-12-05",
+    excerpt: "Inauguration de notre nouvelle plateforme de recherche dédiée à l'énergie solaire.",
+    image: "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg",
+    url: "/actualites/plateforme-solaire",
+    category: "Infrastructure"
+  }
+];
+
+const categories = ["Tous", "Événement", "International", "Formation", "Recherche", "Étudiants", "Infrastructure"];
+---
+
+<Layout 
+  title="Actualités"
+  description="Suivez toute l'actualité de M2E Polytech : événements, recherche, vie étudiante et plus encore."
+>
+  <Hero
+    title="Actualités"
+    subtitle="Restez informé des dernières nouvelles de M2E Polytech"
+    height="small"
+  />
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="flex flex-wrap gap-4 mb-8">
+        {categories.map(category => (
+          <button
+            class="px-4 py-2 rounded-full text-sm font-medium transition-colors"
+            class:list={[
+              category === "Tous" 
+                ? "bg-primary-600 text-white" 
+                : "bg-gray-100 text-secondary-700 hover:bg-gray-200"
+            ]}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {news.map(item => (
+          <NewsCard
+            title={item.title}
+            date={new Date(item.date).toLocaleDateString('fr-FR', { 
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+            excerpt={item.excerpt}
+            image={item.image}
+            url={item.url}
+            category={item.category}
+          />
+        ))}
+      </div>
+
+      <div class="mt-12 flex justify-center">
+        <button class="btn btn-outline">
+          Charger plus d'actualités
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-gray-50">
+    <div class="container">
+      <div class="max-w-xl mx-auto text-center">
+        <h2 class="mb-6">Newsletter</h2>
+        <p class="text-lg text-secondary-700 mb-8">
+          Abonnez-vous à notre newsletter pour recevoir les dernières actualités de M2E Polytech.
+        </p>
+        <form id="newsletter-form" class="flex gap-4">
+          <input
+            type="email"
+            placeholder="Votre adresse email"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            required
+          />
+          <button type="submit" class="btn btn-primary whitespace-nowrap">
+            S'abonner
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  const form = document.getElementById('newsletter-form');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get('email');
+
+    try {
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{ email }]);
+
+      if (error) throw error;
+
+      alert('Merci pour votre inscription !');
+      (e.target as HTMLFormElement).reset();
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+    }
+  });
+</script>

@@ -1,0 +1,42 @@
+---
+interface Props {
+  title: string;
+  date: string;
+  excerpt: string;
+  image: string;
+  url: string;
+  category?: string;
+}
+
+const { title, date, excerpt, image, url, category } = Astro.props;
+---
+
+<article class="card group h-full flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg">
+  <a href={url} class="relative block overflow-hidden aspect-video">
+    <img 
+      src={image} 
+      alt="" 
+      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+    />
+    {category && (
+      <span class="absolute top-3 right-3 bg-primary-600 text-white text-xs font-medium px-2.5 py-1 rounded">
+        {category}
+      </span>
+    )}
+  </a>
+  <div class="flex flex-col flex-grow p-5">
+    <time datetime={date} class="text-sm text-secondary-500 mb-2">{date}</time>
+    <h3 class="text-xl font-semibold mb-2">
+      <a href={url} class="text-primary-800 hover:text-primary-600 transition-colors">
+        {title}
+      </a>
+    </h3>
+    <p class="text-secondary-600 flex-grow mb-4">{excerpt}</p>
+    <a href={url} class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+      Lire la suite
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </a>
+  </div>
+</article>

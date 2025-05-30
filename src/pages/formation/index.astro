@@ -1,0 +1,124 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+
+const departments = [
+  {
+    name: "Énergie",
+    description: "Formation d'excellence dans le domaine de l'énergie et de la transition énergétique.",
+    image: "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg",
+    programs: ["Génie énergétique", "Énergies renouvelables", "Smart grids"]
+  },
+  {
+    name: "Environnement",
+    description: "Formations axées sur la protection de l'environnement et le développement durable.",
+    image: "https://images.pexels.com/photos/327533/pexels-photo-327533.jpeg",
+    programs: ["Génie environnemental", "Gestion des déchets", "Qualité de l'air"]
+  },
+  {
+    name: "Numérique",
+    description: "Formations en informatique, réseaux et systèmes d'information.",
+    image: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
+    programs: ["Informatique", "Cybersécurité", "Intelligence artificielle"]
+  }
+];
+---
+
+<Layout 
+  title="Formation"
+  description="Découvrez nos formations d'ingénieurs dans les domaines de l'énergie, de l'environnement et du numérique."
+>
+  <Hero
+    title="Formation"
+    subtitle="Des formations d'excellence pour répondre aux défis de demain"
+    height="medium"
+  />
+
+  <section class="section bg-white">
+    <div class="container">
+      <h2 class="text-center mb-12">Nos départements</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {departments.map(dept => (
+          <div class="card overflow-hidden group">
+            <div class="relative h-48 overflow-hidden">
+              <img 
+                src={dept.image} 
+                alt={dept.name}
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">{dept.name}</h3>
+            </div>
+            <div class="p-6">
+              <p class="text-secondary-600 mb-4">{dept.description}</p>
+              <h4 class="font-semibold mb-2">Formations proposées :</h4>
+              <ul class="space-y-2">
+                {dept.programs.map(program => (
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {program}
+                  </li>
+                ))}
+              </ul>
+              <a href={`/formation/${dept.name.toLowerCase()}`} class="btn btn-primary w-full mt-6">
+                En savoir plus
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-gray-50">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="mb-6">Une pédagogie innovante</h2>
+          <p class="text-lg text-secondary-700 mb-6">
+            Notre approche pédagogique combine excellence académique, pratique professionnelle et développement personnel.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-semibold mb-1">Projets concrets</h3>
+                <p>Travaillez sur des projets réels en collaboration avec nos partenaires industriels.</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-semibold mb-1">Stages en entreprise</h3>
+                <p>Bénéficiez d'une expérience professionnelle significative grâce à nos stages obligatoires.</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 class="font-semibold mb-1">Innovation et recherche</h3>
+                <p>Participez à des projets de recherche innovants dans nos laboratoires.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="relative">
+          <img 
+            src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg" 
+            alt="Étudiants en formation"
+            class="rounded-lg shadow-lg"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

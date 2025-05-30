@@ -1,0 +1,412 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import NewsCard from '../components/NewsCard.astro';
+import EventCard from '../components/EventCard.astro';
+
+// Sample data
+const latestNews = [
+  {
+    title: "Journées portes ouvertes 2025",
+    date: "2025-01-15",
+    excerpt: "Venez découvrir nos campus et nos formations lors des journées portes ouvertes qui se tiendront du 15 au 17 février 2025.",
+    image: "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    url: "/actualites/journees-portes-ouvertes-2025",
+    category: "Événement"
+  },
+  {
+    title: "Nouveau partenariat international avec l'université de Tokyo",
+    date: "2025-01-10",
+    excerpt: "M2E Polytech renforce sa présence à l'international avec un nouveau partenariat avec l'université de Tokyo.",
+    image: "https://images.pexels.com/photos/1563256/pexels-photo-1563256.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    url: "/actualites/partenariat-tokyo",
+    category: "International"
+  },
+  {
+    title: "Lancement du nouveau Master en Intelligence Artificielle",
+    date: "2025-01-05",
+    excerpt: "À partir de septembre 2025, M2E Polytech proposera un nouveau Master spécialisé en Intelligence Artificielle et Systèmes Autonomes.",
+    image: "https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    url: "/actualites/master-intelligence-artificielle",
+    category: "Formation"
+  }
+];
+
+const upcomingEvents = [
+  {
+    title: "Conférence sur l'énergie renouvelable",
+    date: "2025-02-15",
+    time: "14:00 - 17:00",
+    location: "Amphi Einstein, Campus Sciences",
+    description: "Une conférence sur les dernières avancées en matière d'énergie renouvelable avec des experts internationaux.",
+    url: "/evenements/conference-energie-renouvelable",
+    category: "Conférence"
+  },
+  {
+    title: "Hackathon DevOps",
+    date: "2025-03-10",
+    time: "09:00 - 18:00",
+    location: "Bâtiment Informatique, Salle 201",
+    description: "Un hackathon de 24h sur le thème des pratiques DevOps modernes, ouvert à tous les étudiants.",
+    url: "/evenements/hackathon-devops",
+    category: "Compétition"
+  }
+];
+---
+
+<Layout title="Accueil">
+  <!-- Hero section -->
+  <Hero
+    title="Formez-vous aux métiers d'avenir avec M2E Polytech"
+    subtitle="École d'ingénieurs universitaire spécialisée dans les domaines de l'énergie, de l'environnement et du numérique."
+    background="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1600"
+    height="large"
+  />
+
+  <!-- Key figures section -->
+  <section class="section bg-white">
+    <div class="container">
+      <h2 class="text-center mb-12">M2E Polytech en chiffres</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="p-6 rounded-lg bg-primary-50">
+          <span class="block text-4xl font-bold text-primary-600 mb-2">3500</span>
+          <span class="text-secondary-700">Étudiants</span>
+        </div>
+        <div class="p-6 rounded-lg bg-primary-50">
+          <span class="block text-4xl font-bold text-primary-600 mb-2">15</span>
+          <span class="text-secondary-700">Formations d'ingénieurs</span>
+        </div>
+        <div class="p-6 rounded-lg bg-primary-50">
+          <span class="block text-4xl font-bold text-primary-600 mb-2">250</span>
+          <span class="text-secondary-700">Enseignants-chercheurs</span>
+        </div>
+        <div class="p-6 rounded-lg bg-primary-50">
+          <span class="block text-4xl font-bold text-primary-600 mb-2">150</span>
+          <span class="text-secondary-700">Partenaires industriels</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formation highlights -->
+  <section class="section bg-gray-50">
+    <div class="container">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+        <div>
+          <h2 class="mb-3">Nos domaines de formation</h2>
+          <p class="text-secondary-600 max-w-2xl">Découvrez nos formations d'excellence dans des secteurs d'avenir, associant science fondamentale, technologie et management.</p>
+        </div>
+        <a href="/formation/catalogue" class="btn btn-outline mt-4 md:mt-0">
+          Toutes nos formations
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="card overflow-hidden group">
+          <div class="relative h-48 overflow-hidden">
+            <img src="https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Énergie" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
+            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Énergie</h3>
+          </div>
+          <div class="p-5">
+            <p class="text-secondary-600 mb-4">Formez-vous aux technologies de production, stockage et distribution d'énergie, avec un focus sur la transition énergétique.</p>
+            <a href="/formation/energie" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+              Découvrir
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="card overflow-hidden group">
+          <div class="relative h-48 overflow-hidden">
+            <img src="https://images.pexels.com/photos/327533/pexels-photo-327533.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Environnement" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
+            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Environnement</h3>
+          </div>
+          <div class="p-5">
+            <p class="text-secondary-600 mb-4">Devenez un expert des problématiques environnementales et développez des solutions durables pour préserver notre planète.</p>
+            <a href="/formation/environnement" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+              Découvrir
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="card overflow-hidden group">
+          <div class="relative h-48 overflow-hidden">
+            <img src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Numérique" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
+            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Numérique</h3>
+          </div>
+          <div class="p-5">
+            <p class="text-secondary-600 mb-4">Développez des compétences de pointe en informatique, intelligence artificielle, cybersécurité et systèmes d'information.</p>
+            <a href="/formation/numerique" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+              Découvrir
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest news -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+        <div>
+          <h2 class="mb-3">Dernières actualités</h2>
+          <p class="text-secondary-600 max-w-2xl">Restez informé des dernières nouvelles et événements de M2E Polytech.</p>
+        </div>
+        <a href="/actualites" class="btn btn-outline mt-4 md:mt-0">
+          Toutes les actualités
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {latestNews.map(news => (
+          <NewsCard 
+            title={news.title}
+            date={new Date(news.date).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+            excerpt={news.excerpt}
+            image={news.image}
+            url={news.url}
+            category={news.category}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming events -->
+  <section class="section bg-gray-50">
+    <div class="container">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+        <div>
+          <h2 class="mb-3">Événements à venir</h2>
+          <p class="text-secondary-600 max-w-2xl">Participez aux prochains événements organisés par M2E Polytech.</p>
+        </div>
+        <a href="/evenements" class="btn btn-outline mt-4 md:mt-0">
+          Tous les événements
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {upcomingEvents.map(event => (
+          <EventCard 
+            title={event.title}
+            date={event.date}
+            time={event.time}
+            location={event.location}
+            description={event.description}
+            url={event.url}
+            category={event.category}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- International section -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="flex flex-col lg:flex-row gap-12 items-center">
+        <div class="lg:w-1/2">
+          <img 
+            src="https://images.pexels.com/photos/2305098/pexels-photo-2305098.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+            alt="Étudiants internationaux" 
+            class="rounded-lg shadow-soft w-full h-auto"
+          />
+        </div>
+        <div class="lg:w-1/2">
+          <h2 class="mb-4">Un rayonnement international</h2>
+          <p class="text-lg text-secondary-700 mb-6">
+            M2E Polytech est fière de son réseau de partenaires internationaux qui offre aux étudiants des opportunités uniques d'échanges académiques et de doubles diplômes.
+          </p>
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Plus de 120 universités partenaires dans 40 pays</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>25% d'étudiants internationaux</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Possibilité de semestres d'échanges et de stages à l'international</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Programmes enseignés en anglais disponibles</span>
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-4">
+            <a href="/international/venir" class="btn btn-primary">Venir étudier à M2E Polytech</a>
+            <a href="/international/partir" class="btn btn-outline">Partir à l'étranger</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campus life -->
+  <section class="section bg-primary-800 text-white">
+    <div class="container">
+      <h2 class="text-center text-white mb-12">La vie sur le campus</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="bg-white/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Associations</h3>
+          <p class="text-white/80">Plus de 40 associations étudiantes pour s'épanouir et développer vos passions.</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-white/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Sport</h3>
+          <p class="text-white/80">Des installations sportives modernes et plus de 30 activités proposées.</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-white/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Logement</h3>
+          <p class="text-white/80">Des résidences universitaires confortables à proximité du campus.</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-white/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Culture</h3>
+          <p class="text-white/80">Des événements culturels tout au long de l'année pour s'enrichir et se divertir.</p>
+        </div>
+      </div>
+      <div class="text-center mt-12">
+        <a href="/vie-etudiante" class="btn bg-white text-primary-800 hover:bg-gray-100">
+          Découvrir la vie étudiante
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact section -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="flex flex-col lg:flex-row gap-12">
+        <div class="lg:w-1/2">
+          <h2 class="mb-4">Contactez-nous</h2>
+          <p class="text-lg text-secondary-700 mb-8">
+            Vous avez des questions sur nos formations, l'admission ou la vie étudiante ? 
+            N'hésitez pas à nous contacter.
+          </p>
+          
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="bg-primary-100 rounded-full p-3 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-primary-800 mb-1">Adresse</h3>
+                <p class="text-secondary-600">
+                  Campus Scientifique<br>
+                  54500 Vandœuvre-lès-Nancy<br>
+                  France
+                </p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-primary-100 rounded-full p-3 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-primary-800 mb-1">Email</h3>
+                <p class="text-secondary-600">
+                  <a href="mailto:contact@m2epolytech.fr" class="hover:underline">contact@m2epolytech.fr</a>
+                </p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-primary-100 rounded-full p-3 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-primary-800 mb-1">Téléphone</h3>
+                <p class="text-secondary-600">
+                  <a href="tel:+33383684200" class="hover:underline">+33 (0)3 83 68 42 00</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8">
+            <a href="/contact" class="btn btn-primary">
+              Nous contacter
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <div class="lg:w-1/2 bg-gray-100 rounded-lg overflow-hidden">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2634.802286168299!2d6.1645762!3d48.666036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4794986e2ea73717%3A0x53b0b1f1957c44!2sUniversit%C3%A9%20de%20Lorraine!5e0!3m2!1sfr!2sfr!4v1659000000000!5m2!1sfr!2sfr" 
+            width="100%" 
+            height="450" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Carte du campus M2E Polytech"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,147 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+
+const laboratories = [
+  {
+    name: "LEME - Laboratoire d'Énergétique et de Mécanique",
+    description: "Recherche sur les systèmes énergétiques et la mécanique des fluides.",
+    themes: ["Énergies renouvelables", "Efficacité énergétique", "Mécanique des fluides numérique"],
+    image: "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg"
+  },
+  {
+    name: "LENV - Laboratoire Environnement",
+    description: "Études sur la protection de l'environnement et le développement durable.",
+    themes: ["Qualité de l'air", "Traitement des eaux", "Écologie industrielle"],
+    image: "https://images.pexels.com/photos/327533/pexels-photo-327533.jpeg"
+  },
+  {
+    name: "LINFO - Laboratoire d'Informatique",
+    description: "Recherche en informatique et systèmes d'information.",
+    themes: ["Intelligence artificielle", "Cybersécurité", "Systèmes distribués"],
+    image: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg"
+  }
+];
+
+const publications = [
+  {
+    title: "Optimisation des systèmes énergétiques urbains",
+    authors: "Martin, L., Dubois, P., et al.",
+    journal: "Energy Research Journal",
+    year: 2024
+  },
+  {
+    title: "Nouvelles approches en traitement des eaux usées",
+    authors: "Bernard, S., Kumar, A., et al.",
+    journal: "Environmental Science & Technology",
+    year: 2024
+  },
+  {
+    title: "Intelligence artificielle pour la prédiction de la qualité de l'air",
+    authors: "Chen, W., Dupont, M., et al.",
+    journal: "Applied AI Journal",
+    year: 2023
+  }
+];
+---
+
+<Layout 
+  title="Recherche"
+  description="Découvrez nos activités de recherche dans les domaines de l'énergie, de l'environnement et du numérique."
+>
+  <Hero
+    title="Recherche"
+    subtitle="L'innovation au service des défis sociétaux"
+    height="medium"
+  />
+
+  <section class="section bg-white">
+    <div class="container">
+      <h2 class="text-center mb-12">Nos laboratoires de recherche</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {laboratories.map(lab => (
+          <div class="card overflow-hidden group">
+            <div class="relative h-48 overflow-hidden">
+              <img 
+                src={lab.image} 
+                alt={lab.name}
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-3">{lab.name}</h3>
+              <p class="text-secondary-600 mb-4">{lab.description}</p>
+              <h4 class="font-semibold mb-2">Thèmes de recherche :</h4>
+              <ul class="space-y-2">
+                {lab.themes.map(theme => (
+                  <li class="flex items-center">
+                    <svg class="w-5 h-5 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {theme}
+                  </li>
+                ))}
+              </ul>
+              <a href={`/recherche/laboratoires/${lab.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} class="btn btn-primary w-full mt-6">
+                En savoir plus
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-gray-50">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div>
+          <h2 class="mb-6">Publications récentes</h2>
+          <div class="space-y-6">
+            {publications.map(pub => (
+              <div class="bg-white p-6 rounded-lg shadow-soft">
+                <h3 class="font-bold mb-2">{pub.title}</h3>
+                <p class="text-secondary-600 mb-2">{pub.authors}</p>
+                <p class="text-sm">
+                  <span class="font-medium">{pub.journal}</span> • {pub.year}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div class="mt-8">
+            <a href="/recherche/publications" class="btn btn-outline">
+              Toutes les publications
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h2 class="mb-6">Projets de recherche</h2>
+          <div class="bg-white p-6 rounded-lg shadow-soft">
+            <h3 class="font-bold mb-4">Opportunités de thèse</h3>
+            <p class="text-secondary-600 mb-4">
+              Nous proposons régulièrement des sujets de thèse dans nos différents laboratoires.
+              Consultez nos offres ou contactez-nous pour plus d'informations.
+            </p>
+            <a href="/recherche/theses" class="btn btn-primary">
+              Voir les sujets de thèse
+            </a>
+          </div>
+          
+          <div class="bg-white p-6 rounded-lg shadow-soft mt-6">
+            <h3 class="font-bold mb-4">Collaborations industrielles</h3>
+            <p class="text-secondary-600 mb-4">
+              Nos équipes travaillent en étroite collaboration avec des partenaires industriels
+              sur des projets de recherche innovants.
+            </p>
+            <a href="/recherche/partenariats" class="btn btn-primary">
+              Devenir partenaire
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

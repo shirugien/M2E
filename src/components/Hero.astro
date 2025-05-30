@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  background?: string;
+  height?: 'small' | 'medium' | 'large';
+}
+
+const { 
+  title, 
+  subtitle, 
+  background = "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1600", 
+  height = 'medium'
+} = Astro.props;
+
+const heightClass = {
+  small: 'h-[300px]',
+  medium: 'h-[400px] md:h-[500px]',
+  large: 'h-[500px] md:h-[600px]'
+}[height];
+---
+
+<div class={`relative ${heightClass} bg-primary-800 overflow-hidden`}>
+  <div class="absolute inset-0">
+    <img 
+      src={background} 
+      alt="" 
+      class="w-full h-full object-cover opacity-40"
+    />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-r from-primary-900/80 to-primary-800/50"></div>
+  <div class="relative h-full container flex flex-col justify-center">
+    <h1 class="text-white max-w-3xl">{title}</h1>
+    {subtitle && <p class="text-xl md:text-2xl text-white/90 max-w-3xl mt-4">{subtitle}</p>}
+  </div>
+</div>

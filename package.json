@@ -1,0 +1,24 @@
+{
+  "name": "m2e-polytech-website",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/alpinejs": "^0.4.8",
+    "@astrojs/tailwind": "^6.0.2",
+    "@supabase/supabase-js": "^2.39.3",
+    "alpinejs": "^3.13.3",
+    "astro": "^5.8.0",
+    "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
+}
