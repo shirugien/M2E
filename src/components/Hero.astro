@@ -6,12 +6,17 @@ interface Props {
   height?: 'small' | 'medium' | 'large';
 }
 
+// Import de l'image par défaut
+import defaultHero from '../../public/assets/img/herro.png';
+
 const { 
   title, 
   subtitle, 
-  background = "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1600", 
+  background = 'assets/img/herro.png' , 
   height = 'medium'
 } = Astro.props;
+
+const bgImage = background ?? defaultHero;
 
 const heightClass = {
   small: 'h-[300px]',
@@ -23,9 +28,9 @@ const heightClass = {
 <div class={`relative ${heightClass} bg-primary-800 overflow-hidden`}>
   <div class="absolute inset-0">
     <img 
-      src={background} 
+      src={bgImage} 
       alt="" 
-      class="w-full h-full object-cover opacity-40"
+      class="w-full h-full object-cover opacity-30"
     />
   </div>
   <div class="absolute inset-0 bg-gradient-to-r from-primary-900/80 to-primary-800/50"></div>

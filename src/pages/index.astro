@@ -56,12 +56,19 @@ const upcomingEvents = [
 
 <Layout title="Accueil">
   <!-- Hero section -->
-  <Hero
-    title="Formez-vous aux métiers d'avenir avec M2E Polytech"
-    subtitle="École d'ingénieurs universitaire spécialisée dans les domaines de l'énergie, de l'environnement et du numérique."
+   <Hero
+    title="M2E POLYTECHNIQUE – L’école d’Ingénieurs au service du développement du Tchad"
+    subtitle="Créée par des jeunes ingénieurs tchadiens, M2E met l’accent sur une formation pratique pour former des cadres compétents dans des domaines clés comme le Génie Civil, l’Agronomie, le Génie Informatique, la Nutrition et la Communication."
     background="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1600"
     height="large"
   />
+
+  <!-- Slogan section -->
+  <section class="section bg-gray-50 text-center py-12">
+    <div class="container">
+      <h2 class="text-2xl md:text-3xl font-semibold">M2E, c’est « le savoir » avant « l’avoir » !</h2>
+    </div>
+  </section>
 
   <!-- Key figures section -->
   <section class="section bg-white">
@@ -107,12 +114,12 @@ const upcomingEvents = [
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="card overflow-hidden group">
           <div class="relative h-48 overflow-hidden">
-            <img src="https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Énergie" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <img src="/public/assets/img/formation/agronomie.jpeg" alt="Énergie" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
             <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Énergie</h3>
+            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Agronomie</h3>
           </div>
           <div class="p-5">
-            <p class="text-secondary-600 mb-4">Formez-vous aux technologies de production, stockage et distribution d'énergie, avec un focus sur la transition énergétique.</p>
+            <p class="text-secondary-600 mb-4">Des compétences pour transformer l’agriculture et assurer la sécurité alimentaire.</p>
             <a href="/formation/energie" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
               Découvrir
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
@@ -124,12 +131,12 @@ const upcomingEvents = [
 
         <div class="card overflow-hidden group">
           <div class="relative h-48 overflow-hidden">
-            <img src="https://images.pexels.com/photos/327533/pexels-photo-327533.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Environnement" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <img src="/public/assets/img/formation/genie_informatique.jpeg" alt="Environnement" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
             <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Environnement</h3>
+            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Génie Informatique</h3>
           </div>
           <div class="p-5">
-            <p class="text-secondary-600 mb-4">Devenez un expert des problématiques environnementales et développez des solutions durables pour préserver notre planète.</p>
+            <p class="text-secondary-600 mb-4">Une formation tournée vers les technologies numériques et la cybersécurité.</p>
             <a href="/formation/environnement" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
               Découvrir
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
@@ -141,12 +148,29 @@ const upcomingEvents = [
 
         <div class="card overflow-hidden group">
           <div class="relative h-48 overflow-hidden">
-            <img src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Numérique" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <img src="/public/assets/img/formation/nutrition.jpeg" alt="Numérique" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
             <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Numérique</h3>
+            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Nutrition</h3>
           </div>
           <div class="p-5">
-            <p class="text-secondary-600 mb-4">Développez des compétences de pointe en informatique, intelligence artificielle, cybersécurité et systèmes d'information.</p>
+            <p class="text-secondary-600 mb-4">Former des spécialistes pour relever les défis de la santé et de l’alimentation.</p>
+            <a href="/formation/numerique" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
+              Découvrir
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="card overflow-hidden group">
+          <div class="relative h-48 overflow-hidden">
+            <img src="/public/assets/img/formation/communication.jpeg" alt="Numérique" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
+            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Communication</h3>
+          </div>
+          <div class="p-5">
+            <p class="text-secondary-600 mb-4">Préparer les futurs professionnels des médias et de la communication stratégique.</p>
             <a href="/formation/numerique" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
               Découvrir
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
@@ -164,7 +188,7 @@ const upcomingEvents = [
     <div class="container">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-10">
         <div>
-          <h2 class="mb-3">Dernières actualités</h2>
+          <h2 class="mb-3">PRESENTATION DE M2E POLYTECH</h2>
           <p class="text-secondary-600 max-w-2xl">Restez informé des dernières nouvelles et événements de M2E Polytech.</p>
         </div>
         <a href="/actualites" class="btn btn-outline mt-4 md:mt-0">
