@@ -1,0 +1,285 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Hero from '../../../components/Hero.astro';
+
+const eventDetails = {
+  dates: [
+    { date: "15 février 2025", time: "9h00 - 17h00", campus: "Campus Principal" },
+    { date: "16 février 2025", time: "9h00 - 17h00", campus: "Campus Sciences" },
+    { date: "17 février 2025", time: "9h00 - 16h00", campus: "Campus Technique" }
+  ],
+  programs: [
+    {
+      name: "Génie Civil",
+      time: "10h00 - 11h30",
+      location: "Amphi Einstein",
+      description: "Présentation du programme, visite des laboratoires de matériaux et rencontre avec les étudiants."
+    },
+    {
+      name: "Agronomie",
+      time: "14h00 - 15h30",
+      location: "Serre expérimentale",
+      description: "Découverte des installations agricoles, démonstrations pratiques et échanges avec les enseignants."
+    },
+    {
+      name: "Génie Informatique",
+      time: "11h00 - 12h30",
+      location: "Lab Informatique",
+      description: "Présentation des projets étudiants, démonstrations technologiques et ateliers pratiques."
+    },
+    {
+      name: "Nutrition",
+      time: "15h00 - 16h30",
+      location: "Laboratoire Nutrition",
+      description: "Visite des équipements spécialisés, présentation des recherches et témoignages d'étudiants."
+    },
+    {
+      name: "Communication",
+      time: "13h00 - 14h30",
+      location: "Studio Média",
+      description: "Découverte des outils de communication moderne, projets étudiants et perspectives professionnelles."
+    }
+  ]
+};
+
+const activities = [
+  {
+    title: "Conférences d'orientation",
+    description: "Rencontrez nos conseillers d'orientation pour définir votre parcours.",
+    icon: "🎓"
+  },
+  {
+    title: "Visites guidées",
+    description: "Découvrez nos campus, laboratoires et installations sportives.",
+    icon: "🏛️"
+  },
+  {
+    title: "Rencontres avec les étudiants",
+    description: "Échangez avec nos étudiants actuels sur leur expérience.",
+    icon: "👥"
+  },
+  {
+    title: "Démonstrations pratiques",
+    description: "Assistez à des démonstrations dans nos laboratoires.",
+    icon: "🔬"
+  },
+  {
+    title: "Information sur les admissions",
+    description: "Obtenez toutes les informations sur les procédures d'admission.",
+    icon: "📋"
+  },
+  {
+    title: "Présentation des débouchés",
+    description: "Découvrez les opportunités de carrière après vos études.",
+    icon: "💼"
+  }
+];
+---
+
+<Layout 
+  title="Journées portes ouvertes 2025"
+  description="Venez découvrir M2E Polytech lors de nos journées portes ouvertes du 15 au 17 février 2025. Rencontrez nos équipes, visitez nos campus et découvrez nos formations."
+>
+  <Hero
+    title="Journées portes ouvertes 2025"
+    subtitle="Découvrez M2E Polytech du 15 au 17 février 2025"
+    background="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1600"
+    height="medium"
+  />
+
+  <!-- Article content -->
+  <article class="section bg-white">
+    <div class="container">
+      <div class="max-w-4xl mx-auto">
+        <div class="prose prose-lg max-w-none">
+          <div class="bg-primary-50 border-l-4 border-primary-600 p-6 mb-8">
+            <h2 class="text-primary-800 mb-2">📅 Dates importantes</h2>
+            <p class="text-primary-700 mb-0">
+              <strong>Du 15 au 17 février 2025</strong> - Trois jours pour découvrir toutes nos formations et rencontrer nos équipes pédagogiques.
+            </p>
+          </div>
+
+          <p class="text-xl text-secondary-700 mb-8">
+            M2E Polytech vous ouvre ses portes pour vous faire découvrir ses formations d'ingénieurs dans les domaines du Génie Civil, de l'Agronomie, de l'Informatique, de la Nutrition et de la Communication. Ces journées sont l'occasion idéale pour rencontrer nos équipes, visiter nos installations et échanger avec nos étudiants.
+          </p>
+
+          <h2>Programme des trois journées</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {eventDetails.dates.map(day => (
+              <div class="card p-6 text-center">
+                <h3 class="text-primary-600 mb-2">{day.date}</h3>
+                <p class="font-semibold mb-1">{day.time}</p>
+                <p class="text-secondary-600">{day.campus}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2>Présentation des formations</h2>
+          <p>Chaque formation bénéficie d'un créneau dédié avec présentation du programme, visite des installations et rencontre avec les équipes pédagogiques :</p>
+
+          <div class="space-y-6 mb-8">
+            {eventDetails.programs.map(program => (
+              <div class="border border-gray-200 rounded-lg p-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
+                  <h3 class="text-xl font-bold text-primary-800">{program.name}</h3>
+                  <div class="flex flex-col md:flex-row md:items-center gap-2 text-sm text-secondary-600">
+                    <span class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                      {program.time}
+                    </span>
+                    <span class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      </svg>
+                      {program.location}
+                    </span>
+                  </div>
+                </div>
+                <p class="text-secondary-700">{program.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2>Activités proposées</h2>
+          <p>Tout au long de ces trois journées, de nombreuses activités vous attendent :</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {activities.map(activity => (
+              <div class="bg-gray-50 p-6 rounded-lg">
+                <div class="text-3xl mb-3">{activity.icon}</div>
+                <h3 class="font-bold mb-2">{activity.title}</h3>
+                <p class="text-secondary-600">{activity.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2>Informations pratiques</h2>
+          
+          <div class="bg-gray-50 p-6 rounded-lg mb-8">
+            <h3 class="font-bold mb-4">📍 Accès et transport</h3>
+            <ul class="space-y-2">
+              <li><strong>Adresse :</strong> Campus Scientifique, 54500 Vandœuvre-lès-Nancy</li>
+              <li><strong>Transport en commun :</strong> Ligne de bus 16, arrêt "M2E Polytech"</li>
+              <li><strong>Parking :</strong> Parking gratuit disponible sur le campus</li>
+              <li><strong>Accessibilité :</strong> Tous nos bâtiments sont accessibles aux personnes à mobilité réduite</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-50 p-6 rounded-lg mb-8">
+            <h3 class="font-bold mb-4">🍽️ Restauration</h3>
+            <ul class="space-y-2">
+              <li>Restaurant universitaire ouvert de 11h30 à 14h00</li>
+              <li>Cafétéria disponible toute la journée</li>
+              <li>Espaces pique-nique aménagés sur le campus</li>
+            </ul>
+          </div>
+
+          <h2>Témoignages d'anciens participants</h2>
+          
+          <div class="space-y-6 mb-8">
+            <blockquote class="border-l-4 border-primary-600 pl-6 py-4 bg-primary-50">
+              <p class="italic mb-2">"Les journées portes ouvertes m'ont permis de découvrir la richesse des formations proposées. J'ai pu échanger avec des étudiants et des professeurs, ce qui m'a conforté dans mon choix d'intégrer M2E Polytech."</p>
+              <cite class="font-semibold">— Sarah M., étudiante en Génie Civil</cite>
+            </blockquote>
+            
+            <blockquote class="border-l-4 border-primary-600 pl-6 py-4 bg-primary-50">
+              <p class="italic mb-2">"La visite des laboratoires d'informatique m'a impressionné. Les équipements sont modernes et les projets étudiants très innovants. C'est ce qui m'a décidé à candidater."</p>
+              <cite class="font-semibold">— Thomas L., étudiant en Génie Informatique</cite>
+            </blockquote>
+          </div>
+
+          <h2>Préparez votre visite</h2>
+          
+          <div class="bg-accent-50 border border-accent-200 p-6 rounded-lg mb-8">
+            <h3 class="font-bold mb-4 text-accent-800">💡 Nos conseils</h3>
+            <ul class="space-y-2 text-accent-700">
+              <li>• Préparez vos questions à l'avance</li>
+              <li>• Apportez vos derniers bulletins de notes</li>
+              <li>• Venez accompagné de vos parents si vous le souhaitez</li>
+              <li>• Prévoyez du temps pour visiter plusieurs formations</li>
+              <li>• N'hésitez pas à échanger avec les étudiants actuels</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Call to action -->
+  <section class="section bg-primary-800 text-white">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-white mb-6">Inscrivez-vous dès maintenant</h2>
+        <p class="text-lg text-white/90 mb-8">
+          L'inscription est gratuite mais recommandée pour mieux organiser votre visite et recevoir toutes les informations pratiques.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/inscription-jpo" class="btn bg-white text-primary-800 hover:bg-gray-100">
+            S'inscrire aux JPO
+          </a>
+          <a href="/contact" class="btn bg-transparent border-2 border-white text-white hover:bg-white/10">
+            Poser une question
+          </a>
+        </div>
+        <p class="text-sm text-white/80 mt-6">
+          Pour toute question : <a href="mailto:jpo@m2epolytech.fr" class="underline">jpo@m2epolytech.fr</a> | 
+          <a href="tel:+33383684200" class="underline">+33 (0)3 83 68 42 00</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related articles -->
+  <section class="section bg-gray-50">
+    <div class="container">
+      <h2 class="text-center mb-8">Articles liés</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <article class="card overflow-hidden">
+          <img src="https://images.pexels.com/photos/1563256/pexels-photo-1563256.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Partenariat Tokyo" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold mb-2">Nouveau partenariat avec l'université de Tokyo</h3>
+            <p class="text-secondary-600 mb-4">M2E Polytech renforce sa présence internationale...</p>
+            <a href="/actualites/partenariat-tokyo" class="text-primary-600 font-medium">Lire la suite →</a>
+          </div>
+        </article>
+        
+        <article class="card overflow-hidden">
+          <img src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Master IA" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold mb-2">Nouveau Master en Intelligence Artificielle</h3>
+            <p class="text-secondary-600 mb-4">À partir de septembre 2025, découvrez notre nouveau Master...</p>
+            <a href="/actualites/master-intelligence-artificielle" class="text-primary-600 font-medium">Lire la suite →</a>
+          </div>
+        </article>
+        
+        <article class="card overflow-hidden">
+          <img src="https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Journée recherche" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold mb-2">Succès de la journée recherche 2024</h3>
+            <p class="text-secondary-600 mb-4">Plus de 200 chercheurs et industriels ont participé...</p>
+            <a href="/actualites/journee-recherche-2024" class="text-primary-600 font-medium">Lire la suite →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Add smooth scrolling for internal links
+  document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  });
+</script>
