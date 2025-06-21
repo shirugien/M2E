@@ -1,8 +1,8 @@
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
+import path from 'node:path';
 import tailwind from '@astrojs/tailwind';
 import alpinejs from '@astrojs/alpinejs';
-import viteConfig from './vite.config.mjs'; // <-- Ajout de cette ligne
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,28 +17,34 @@ export default defineConfig({
   vite: {
     define: {
       __SECURITY_HEADERS__: true
-    }
+    },
+    resolve: {
+      alias: {
+        '@layouts': path.resolve('./src/layouts'),
+        '@components': path.resolve('./src/components'), 
+      },
+    },
   },
   server: {
     headers: {
       // Protection contre le clickjacking
       'X-Frame-Options': 'DENY',
-      
+
       // Protection XSS
       'X-XSS-Protection': '1; mode=block',
-      
+
       // Empêche le MIME type sniffing
       'X-Content-Type-Options': 'nosniff',
-      
+
       // Force HTTPS
       'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
-      
+
       // Politique de référent
       'Referrer-Policy': 'strict-origin-when-cross-origin',
-      
-      // Permissions Policy (anciennement Feature Policy)
+
+      // Permissions Policy
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
-      
+
       // Content Security Policy
       'Content-Security-Policy': [
         "default-src 'self'",
