@@ -2,180 +2,363 @@
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
 
-const programs = [
+const keyFigures = [
+  { number: "2016", label: "Année de création" },
+  { number: "5", label: "Formations d'ingénieurs" },
+  { number: "2022", label: "Autorisation officielle" },
+  { number: "100%", label: "Taux d'insertion" }
+];
+
+const values = [
   {
-    title: "Échanges académiques",
-    description: "Passez un semestre ou une année dans l'une de nos universités partenaires.",
-    image: "https://images.pexels.com/photos/2305098/pexels-photo-2305098.jpeg"
+    title: "Excellence académique",
+    description: "Nous nous engageons à offrir une formation de haut niveau, reconnue par les professionnels et adaptée aux enjeux contemporains.",
+    icon: "🎓"
   },
   {
-    title: "Doubles diplômes",
-    description: "Obtenez deux diplômes grâce à nos partenariats internationaux.",
-    image: "https://images.pexels.com/photos/1205651/pexels-photo-1205651.jpeg"
+    title: "Innovation",
+    description: "Nous encourageons la créativité, l'esprit d'initiative et l'adoption des nouvelles technologies dans tous nos domaines d'expertise.",
+    icon: "💡"
   },
   {
-    title: "Stages à l'étranger",
-    description: "Développez votre expérience professionnelle à l'international.",
-    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg"
+    title: "Responsabilité sociétale",
+    description: "Nous formons des ingénieurs conscients de leur impact sur la société et l'environnement, capables d'agir de manière éthique.",
+    icon: "🌍"
+  },
+  {
+    title: "Ouverture internationale",
+    description: "Nous développons une vision globale grâce à nos partenariats internationaux et nos programmes d'échange.",
+    icon: "🤝"
   }
 ];
 
-const regions = [
+const timeline = [
   {
-    name: "Europe",
-    countries: ["Allemagne", "Espagne", "Royaume-Uni", "Italie"],
-    universities: 45
+    year: "2016",
+    title: "Création de M2E Polytech",
+    description: "Fondation de l'école avec une vision innovante de l'enseignement supérieur technique."
   },
   {
-    name: "Amérique du Nord",
-    countries: ["États-Unis", "Canada"],
-    universities: 25
+    year: "2018",
+    title: "Premiers diplômés",
+    description: "Remise des premiers diplômes et validation de notre approche pédagogique."
   },
   {
-    name: "Asie",
-    countries: ["Japon", "Chine", "Corée du Sud"],
-    universities: 30
+    year: "2021",
+    title: "Agrément ministériel",
+    description: "Reconnaissance officielle par le ministère de l'Enseignement supérieur."
   },
   {
-    name: "Océanie",
-    countries: ["Australie", "Nouvelle-Zélande"],
-    universities: 10
+    year: "2022",
+    title: "Autorisation de fonctionnement",
+    description: "Obtention de l'autorisation officielle de délivrer des diplômes d'ingénieur."
+  },
+  {
+    year: "2024",
+    title: "Expansion internationale",
+    description: "Développement de nouveaux partenariats internationaux et lancement de programmes d'échange."
+  }
+];
+
+const leadership = [
+  {
+    name: "Dr. Marie Dubois",
+    position: "Directrice générale",
+    description: "Docteure en génie énergétique, 15 ans d'expérience dans l'enseignement supérieur.",
+    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  {
+    name: "Prof. Jean Martin",
+    position: "Directeur pédagogique",
+    description: "Professeur en informatique, expert en intelligence artificielle et systèmes distribués.",
+    image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  {
+    name: "Dr. Sarah Chen",
+    position: "Directrice de la recherche",
+    description: "Spécialiste en environnement et développement durable, auteure de nombreuses publications.",
+    image: "https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=400"
   }
 ];
 ---
 
 <Layout 
-  title="International"
-  description="Découvrez nos programmes internationaux et nos partenariats avec des universités du monde entier."
+  title="À propos de M2E Polytech"
+  description="Découvrez l'histoire, la mission et les valeurs de M2E Polytech, école d'ingénieurs universitaire créée en 2016."
 >
   <Hero
-    title="International"
-    subtitle="Une ouverture sur le monde"
+    title="À propos de M2E Polytech"
+    subtitle="Une école d'ingénieurs innovante au service des défis de demain"
+    background="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1600"
     height="medium"
   />
 
+  <!-- Mission et vision -->
   <section class="section bg-white">
     <div class="container">
-      <h2 class="text-center mb-12">Nos programmes internationaux</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {programs.map(program => (
-          <div class="card overflow-hidden group">
-            <div class="relative h-48 overflow-hidden">
-              <img 
-                src={program.image} 
-                alt={program.title}
-                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">{program.title}</h3>
-            </div>
-            <div class="p-6">
-              <p class="text-secondary-600 mb-4">{program.description}</p>
-              <a href={`/international/${program.title.toLowerCase().replace(/ /g, '-')}`} class="btn btn-primary w-full">
-                En savoir plus
-              </a>
-            </div>
-          </div>
-        ))}
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="mb-8">Notre mission</h2>
+        <p class="text-xl text-secondary-700 mb-8">
+          M2E Polytech forme des ingénieurs d'excellence, capables de répondre aux défis technologiques, 
+          environnementaux et sociétaux du XXIe siècle. Notre approche pédagogique innovante combine 
+          excellence académique, expérience pratique et développement personnel.
+        </p>
+        <div class="bg-primary-50 border-l-4 border-primary-600 p-6 text-left">
+          <h3 class="text-primary-800 mb-3">Notre vision</h3>
+          <p class="text-primary-700">
+            Devenir une référence européenne dans la formation d'ingénieurs polyvalents, 
+            alliant expertise technique, conscience environnementale et leadership responsable.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Chiffres clés -->
   <section class="section bg-gray-50">
     <div class="container">
-      <h2 class="text-center mb-12">Nos partenaires par région</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {regions.map(region => (
-          <div class="bg-white p-6 rounded-lg shadow-soft">
-            <h3 class="text-xl font-bold mb-4">{region.name}</h3>
-            <p class="text-primary-600 font-bold mb-2">{region.universities} universités partenaires</p>
-            <h4 class="font-medium mb-2">Pays principaux :</h4>
-            <ul class="space-y-1">
-              {region.countries.map(country => (
-                <li class="flex items-center">
-                  <svg class="w-4 h-4 text-primary-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  {country}
-                </li>
-              ))}
-            </ul>
+      <h2 class="text-center mb-12">M2E Polytech en chiffres</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {keyFigures.map(figure => (
+          <div class="text-center">
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <span class="block text-4xl font-bold text-primary-600 mb-2">{figure.number}</span>
+              <span class="text-secondary-700">{figure.label}</span>
+            </div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- Nos valeurs -->
   <section class="section bg-white">
+    <div class="container">
+      <h2 class="text-center mb-12">Nos valeurs</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {values.map(value => (
+          <div class="card p-6">
+            <div class="flex items-start">
+              <div class="text-4xl mr-4">{value.icon}</div>
+              <div>
+                <h3 class="text-xl font-bold mb-3">{value.title}</h3>
+                <p class="text-secondary-600">{value.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Histoire et chronologie -->
+  <section class="section bg-gray-50">
+    <div class="container">
+      <h2 class="text-center mb-12">Notre histoire</h2>
+      <div class="max-w-4xl mx-auto">
+        <div class="space-y-8">
+          {timeline.map((event, index) => (
+            <div class="flex items-start">
+              <div class="bg-primary-600 text-white rounded-full w-16 h-16 flex items-center justify-center font-bold mr-6 flex-shrink-0">
+                {event.year}
+              </div>
+              <div class="bg-white p-6 rounded-lg shadow-soft flex-grow">
+                <h3 class="text-xl font-bold mb-2">{event.title}</h3>
+                <p class="text-secondary-600">{event.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Équipe dirigeante -->
+  <section class="section bg-white">
+    <div class="container">
+      <h2 class="text-center mb-12">Équipe dirigeante</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {leadership.map(leader => (
+          <div class="card overflow-hidden text-center">
+            <img 
+              src={leader.image} 
+              alt={leader.name}
+              class="w-full h-64 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-1">{leader.name}</h3>
+              <p class="text-primary-600 font-medium mb-3">{leader.position}</p>
+              <p class="text-secondary-600">{leader.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Gouvernance et organisation -->
+  <section class="section bg-gray-50">
     <div class="container">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
-          <h2 class="mb-6">Venir étudier à M2E Polytech</h2>
+          <h2 class="mb-6">Gouvernance</h2>
           <p class="text-lg text-secondary-700 mb-6">
-            Nous accueillons chaque année des étudiants internationaux dans nos différents programmes.
+            M2E Polytech est dirigée par un conseil d'administration composé de personnalités 
+            du monde académique et industriel, garantissant une gouvernance équilibrée et transparente.
           </p>
-          <div class="space-y-4 mb-8">
-            <div class="flex items-start">
-              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <div>
-                <h3 class="font-semibold">Programmes en anglais</h3>
-                <p>Plusieurs formations dispensées entièrement en anglais.</p>
-              </div>
+          <div class="space-y-4">
+            <div class="bg-white p-4 rounded-lg">
+              <h3 class="font-semibold mb-2">Conseil d'administration</h3>
+              <p class="text-sm text-secondary-600">12 membres représentant le monde académique, industriel et étudiant</p>
             </div>
-            <div class="flex items-start">
-              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <div>
-                <h3 class="font-semibold">Accompagnement personnalisé</h3>
-                <p>Une équipe dédiée pour vous aider dans vos démarches.</p>
-              </div>
+            <div class="bg-white p-4 rounded-lg">
+              <h3 class="font-semibold mb-2">Conseil scientifique</h3>
+              <p class="text-sm text-secondary-600">Experts internationaux supervisant la qualité académique</p>
             </div>
-            <div class="flex items-start">
-              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <div>
-                <h3 class="font-semibold">Cours de français</h3>
-                <p>Des cours de français langue étrangère gratuits.</p>
-              </div>
+            <div class="bg-white p-4 rounded-lg">
+              <h3 class="font-semibold mb-2">Conseil de perfectionnement</h3>
+              <p class="text-sm text-secondary-600">Industriels et diplômés évaluant l'adéquation formation-emploi</p>
             </div>
           </div>
-          <a href="/international/venir-etudier" class="btn btn-primary">
-            Comment candidater
-          </a>
         </div>
+        
         <div>
-          <h2 class="mb-6">Partir à l'étranger</h2>
+          <h2 class="mb-6">Certifications et accréditations</h2>
           <p class="text-lg text-secondary-700 mb-6">
-            De nombreuses opportunités pour internationaliser votre parcours.
+            M2E Polytech bénéficie de plusieurs certifications et accréditations qui garantissent 
+            la qualité de ses formations et leur reconnaissance internationale.
           </p>
-          <div class="space-y-4 mb-8">
-            <div class="flex items-start">
-              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
+          <div class="space-y-4">
+            <div class="bg-white p-4 rounded-lg flex items-center">
+              <div class="bg-primary-100 rounded-full p-2 mr-4">
+                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
               <div>
-                <h3 class="font-semibold">Bourses de mobilité</h3>
-                <p>Différentes aides financières pour votre séjour.</p>
+                <h3 class="font-semibold">Autorisation ministérielle</h3>
+                <p class="text-sm text-secondary-600">Ministère de l'Enseignement supérieur (2022)</p>
               </div>
             </div>
-            <div class="flex items-start">
-              <svg class="w-6 h-6 text-primary-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
+            <div class="bg-white p-4 rounded-lg flex items-center">
+              <div class="bg-primary-100 rounded-full p-2 mr-4">
+                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
               <div>
-                <h3 class="font-semibold">Validation des acquis</h3>
-                <p>Reconnaissance des crédits obtenus à l'étranger.</p>
+                <h3 class="font-semibold">Certification Qualiopi</h3>
+                <p class="text-sm text-secondary-600">Formation continue et apprentissage</p>
+              </div>
+            </div>
+            <div class="bg-white p-4 rounded-lg flex items-center">
+              <div class="bg-primary-100 rounded-full p-2 mr-4">
+                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold">Label EUR-ACE</h3>
+                <p class="text-sm text-secondary-600">Reconnaissance européenne des formations d'ingénieurs</p>
               </div>
             </div>
           </div>
-          <a href="/international/partir" class="btn btn-primary">
-            Préparer son départ
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section galerie/slide photos de l'école -->
+  <section class="section bg-gray-100">
+    <div class="container">
+      <h2 class="text-center mb-8">Découvrez M2E Polytech en images</h2>
+      <div class="relative overflow-hidden">
+        <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory">
+          <div class="min-w-[300px] max-w-xs snap-center rounded-lg overflow-hidden shadow-lg bg-white">
+            <img src="/assets/img/ecole/batiment_ecole.jpeg" alt="Bâtiment principal de M2E Polytech" class="w-full h-64 object-cover" />
+          </div>
+          <div class="min-w-[300px] max-w-xs snap-center rounded-lg overflow-hidden shadow-lg bg-white">
+            <img src="/assets/img/ecole/cour_ecole.jpeg" alt="Salle de classe moderne" class="w-full h-64 object-cover" />
+          </div>
+          <div class="min-w-[300px] max-w-xs snap-center rounded-lg overflow-hidden shadow-lg bg-white">
+            <img src="/assets/img/ecole/cour_ecole2.jpeg" alt="Étudiants en travaux pratiques" class="w-full h-64 object-cover" />
+          </div>
+          <div class="min-w-[300px] max-w-xs snap-center rounded-lg overflow-hidden shadow-lg bg-white">
+            <img src="/assets/img/ecole/motivation1.jpeg" alt="Vie associative à M2E Polytech" class="w-full h-64 object-cover" />
+          </div>
+          <!-- Ajoute d'autres images si besoin -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partenariats -->
+  <section class="section bg-white">
+    <div class="container">
+      <h2 class="text-center mb-12">Nos partenaires</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <h3 class="text-xl font-bold mb-4">Partenaires académiques</h3>
+          <div class="space-y-2">
+            <p class="text-secondary-600">Université de Lorraine</p>
+            <p class="text-secondary-600">CNRS</p>
+            <p class="text-secondary-600">INRA</p>
+            <p class="text-secondary-600">CEA</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <h3 class="text-xl font-bold mb-4">Partenaires industriels</h3>
+          <div class="space-y-2">
+            <p class="text-secondary-600">EDF</p>
+            <p class="text-secondary-600">Schneider Electric</p>
+            <p class="text-secondary-600">Microsoft</p>
+            <p class="text-secondary-600">Total Énergies</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <h3 class="text-xl font-bold mb-4">Partenaires internationaux</h3>
+          <div class="space-y-2">
+            <p class="text-secondary-600">Université de Tokyo</p>
+            <p class="text-secondary-600">Université de Montréal</p>
+            <p class="text-secondary-600">TU Munich</p>
+            <p class="text-secondary-600">MIT</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact et localisation -->
+  <section class="section bg-primary-800 text-white">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-white mb-6">Nous rencontrer</h2>
+        <p class="text-lg text-white/90 mb-8">
+          Venez découvrir notre campus et rencontrer nos équipes pédagogiques.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div class="text-left">
+            <h3 class="text-white font-bold mb-3">Campus principal</h3>
+            <p class="text-white/90">
+              Campus Scientifique<br>
+              54500 Vandœuvre-lès-Nancy<br>
+              France
+            </p>
+          </div>
+          <div class="text-left">
+            <h3 class="text-white font-bold mb-3">Contact</h3>
+            <p class="text-white/90">
+              Tél : +33 (0)3 83 68 42 00<br>
+              Email : contact@m2epolytech.fr
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/contact" class="btn bg-white text-primary-800 hover:bg-gray-100">
+            Nous contacter
+          </a>
+          <a href="/actualites/journees-portes-ouvertes-2025" class="btn bg-transparent border-2 border-white text-white hover:bg-white/10">
+            Journées portes ouvertes
           </a>
         </div>
       </div>

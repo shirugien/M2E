@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import SecureForm from '../components/SecureForm.astro';
 
 ---
 
@@ -19,7 +20,7 @@ import Hero from '../components/Hero.astro';
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
           <h2 class="mb-6">Formulaire de contact</h2>
-          <form id="contact-form" class="space-y-6">
+          <SecureForm id="contact-form" action="/api/contact" class="space-y-6">
             <div>
               <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom complet *</label>
               <input
@@ -27,6 +28,8 @@ import Hero from '../components/Hero.astro';
                 id="name"
                 name="name"
                 required
+                maxlength="100"
+                pattern="[a-zA-ZÀ-ÿ\s\-']+"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               />
             </div>
@@ -38,6 +41,7 @@ import Hero from '../components/Hero.astro';
                 id="email"
                 name="email"
                 required
+                maxlength="254"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               />
             </div>
@@ -49,6 +53,7 @@ import Hero from '../components/Hero.astro';
                 id="subject"
                 name="subject"
                 required
+                maxlength="200"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               />
             </div>
@@ -60,6 +65,7 @@ import Hero from '../components/Hero.astro';
                 name="message"
                 rows="6"
                 required
+                maxlength="2000"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               ></textarea>
             </div>
@@ -72,7 +78,7 @@ import Hero from '../components/Hero.astro';
                 Envoyer le message
               </button>
             </div>
-          </form>
+          </SecureForm>
         </div>
 
         <div>
@@ -145,19 +151,41 @@ import Hero from '../components/Hero.astro';
 
 <script>
   import { supabase } from '../lib/supabase';
+  import { sanitizeFormData, sanitizeEmail, limitStringLength, validateSqlInput } from '../utils/sanitize';
 
   const form = document.getElementById('contact-form');
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    const formData = new FormData(e.target as HTMLFormElement);
-    const data = Object.fromEntries(formData);
-
     try {
+      const formData = new FormData(e.target as HTMLFormElement);
+      const rawData = Object.fromEntries(formData);
+      
+      // Sanitisation des données
+      const sanitizedData = sanitizeFormData(rawData);
+      
+      // Validations spécifiques
+      sanitizedData.email = sanitizeEmail(sanitizedData.email as string);
+      sanitizedData.name = limitStringLength(sanitizedData.name as string, 100);
+      sanitizedData.subject = limitStringLength(sanitizedData.subject as string, 200);
+      sanitizedData.message = limitStringLength(sanitizedData.message as string, 2000);
+      
+      // Validation contre les injections SQL
+      for (const [key, value] of Object.entries(sanitizedData)) {
+        if (typeof value === 'string' && !validateSqlInput(value)) {
+          throw new Error('Données invalides détectées');
+        }
+      }
+
       const { error } = await supabase
         .from('contact_submissions')
-        .insert([data]);
+        .insert([{
+          name: sanitizedData.name,
+          email: sanitizedData.email,
+          subject: sanitizedData.subject,
+          message: sanitizedData.message
+        }]);
 
       if (error) throw error;
 
@@ -165,7 +193,7 @@ import Hero from '../components/Hero.astro';
       (e.target as HTMLFormElement).reset();
     } catch (error) {
       console.error('Error:', error);
-      alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+      alert('Une erreur est survenue. Veuillez vérifier vos données et réessayer.');
     }
   });
 </script>

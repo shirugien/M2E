@@ -1,0 +1,75 @@
+---
+interface Props {
+  action: string;
+  method?: 'GET' | 'POST';
+  class?: string;
+  id?: string;
+}
+
+const { action, method = 'POST', class: className, id } = Astro.props;
+
+// Génère un token CSRF simple (en production, utilisez une solution plus robuste)
+const csrfToken = crypto.randomUUID();
+---
+
+<form 
+  action={action} 
+  method={method} 
+  class={className}
+  id={id}
+  data-secure-form
+>
+  <!-- Token CSRF -->
+  <input type="hidden" name="_csrf" value={csrfToken} />
+  
+  <!-- Timestamp pour éviter les attaques de replay -->
+  <input type="hidden" name="_timestamp" value={Date.now()} />
+  
+  <slot />
+</form>
+
+<script>
+  // Validation côté client pour les formulaires sécurisés
+  document.addEventListener('DOMContentLoaded', () => {
+    const secureForms = document.querySelectorAll('[data-secure-form]');
+    
+    secureForms.forEach(form => {
+      form.addEventListener('submit', (e) => {
+        const formData = new FormData(form as HTMLFormElement);
+        
+        // Validation basique des champs
+        for (const [key, value] of formData.entries()) {
+          if (typeof value === 'string') {
+            // Vérifie la longueur maximale
+            if (value.length > 10000) {
+              e.preventDefault();
+              alert('Un des champs dépasse la longueur maximale autorisée.');
+              return;
+            }
+            
+            // Vérifie les caractères suspects
+            if (/[<>\"'&]/.test(value) && !key.includes('message')) {
+              e.preventDefault();
+              alert('Caractères non autorisés détectés dans le formulaire.');
+              return;
+            }
+          }
+        }
+        
+        // Vérifie le timestamp (pas plus de 1 heure)
+        const timestamp = formData.get('_timestamp');
+        if (timestamp) {
+          const submissionTime = parseInt(timestamp as string);
+          const currentTime = Date.now();
+          const oneHour = 60 * 60 * 1000;
+          
+          if (currentTime - submissionTime > oneHour) {
+            e.preventDefault();
+            alert('Le formulaire a expiré. Veuillez le recharger.');
+            return;
+          }
+        }
+      });
+    });
+  });
+</script>
