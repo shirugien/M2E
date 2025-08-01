@@ -1,8 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// Vérification d'authentification (à implémenter avec votre système d'auth)
-const isAuthenticated = true; // À remplacer par votre logique d'auth
+// Désactivation de la connexion automatique
+const isAuthenticated = false; // Toujours faux pour forcer la redirection
 
 if (!isAuthenticated) {
   return Astro.redirect('/admin/login');

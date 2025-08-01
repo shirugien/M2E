@@ -108,17 +108,7 @@ import Layout from '../../layouts/Layout.astro';
   <script>
     document.getElementById('login-form').addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      
-      // Simulation de l'authentification
-      if (email === 'admin@m2epolytech.fr' && password === 'admin123') {
-        // Redirection vers le dashboard admin
-        window.location.href = '/admin';
-      } else {
-        alert('Identifiants incorrects');
-      }
+      alert('La connexion automatique est désactivée. Veuillez utiliser vos identifiants pour vous connecter.');
     });
   </script>
 </Layout>
