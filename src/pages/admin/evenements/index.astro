@@ -1,0 +1,152 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// Données d'exemple
+const events = [
+  {
+    id: 1,
+    title: "Conférence sur l'énergie renouvelable",
+    date: "2025-02-15",
+    time: "14:00",
+    location: "Amphi Einstein",
+    status: "publié",
+    category: "Conférence"
+  },
+  {
+    id: 2,
+    title: "Hackathon DevOps",
+    date: "2025-03-10",
+    time: "09:00",
+    location: "Bâtiment Informatique",
+    status: "brouillon",
+    category: "Compétition"
+  }
+];
+---
+
+<Layout title="Gestion des événements - Administration">
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="container py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <a href="/admin" class="text-secondary-600 hover:text-primary-600">← Retour</a>
+            <h1 class="text-2xl font-bold text-primary-800">Gestion des événements</h1>
+          </div>
+          <a href="/admin/evenements/nouveau" class="btn btn-primary">Nouvel événement</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container py-8">
+      <!-- Filtres -->
+      <div class="bg-white p-6 rounded-lg shadow-soft mb-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Période</label>
+            <select class="border border-gray-300 rounded-md px-3 py-2">
+              <option>Tous</option>
+              <option>À venir</option>
+              <option>En cours</option>
+              <option>Passés</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+            <select class="border border-gray-300 rounded-md px-3 py-2">
+              <option>Toutes</option>
+              <option>Conférence</option>
+              <option>Compétition</option>
+              <option>Formation</option>
+              <option>Culturel</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
+            <input type="text" placeholder="Nom de l'événement..." class="border border-gray-300 rounded-md px-3 py-2">
+          </div>
+          <div class="mt-6">
+            <button class="btn btn-outline">Filtrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liste des événements -->
+      <div class="bg-white rounded-lg shadow-soft overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Événement
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date & Heure
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Lieu
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Statut
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {events.map(event => (
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">{event.title}</div>
+                      <div class="text-sm text-gray-500">{event.category}</div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">
+                      {new Date(event.date).toLocaleDateString('fr-FR')}
+                    </div>
+                    <div class="text-sm text-gray-500">{event.time}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {event.location}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      event.status === 'publié' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {event.status}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                    <a href={`/admin/evenements/modifier/${event.id}`} class="text-indigo-600 hover:text-indigo-900">
+                      Modifier
+                    </a>
+                    <a href={`/evenements/event-${event.id}`} class="text-green-600 hover:text-green-900" target="_blank">
+                      Voir
+                    </a>
+                    <button class="text-red-600 hover:text-red-900" onclick={`deleteEvent(${event.id})`}>
+                      Supprimer
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function deleteEvent(id) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
+        console.log('Suppression de l\'événement', id);
+      }
+    }
+  </script>
+</Layout>
