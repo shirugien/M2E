@@ -15,6 +15,7 @@
     "@supabase/supabase-js": "^2.39.3",
     "alpinejs": "^3.13.3",
     "astro": "^5.9.2",
+    "mysql2": "^3.14.3",
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
