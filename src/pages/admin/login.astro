@@ -105,10 +105,99 @@ import Layout from '../../layouts/Layout.astro';
     </div>
   </div>
 
+  <div id="lock-card" style="display:none;" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full text-center">
+      <h3 class="text-xl font-bold text-red-600 mb-4">Accès administrateur bloqué</h3>
+      <p class="text-gray-700 mb-4">
+        Trop de tentatives échouées.<br>
+        L'accès à l'administration est désactivé pendant 10 minutes.
+      </p>
+      <button id="close-lock-card" class="mt-2 px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 focus:outline-none">
+        OK
+      </button>
+    </div>
+  </div>
+
   <script>
+    // Gestion du nombre de tentatives de connexion
+    const MAX_ATTEMPTS = 3;
+    const LOCK_DURATION = 10 * 60 * 1000; // 10 minutes en ms
+
+    function getLockInfo() {
+      const lock = localStorage.getItem('adminLock');
+      if (!lock) return null;
+      return JSON.parse(lock);
+    }
+
+    function setLockInfo(info) {
+      localStorage.setItem('adminLock', JSON.stringify(info));
+    }
+
+    function clearLockInfo() {
+      localStorage.removeItem('adminLock');
+    }
+
+    function isLocked() {
+      const lock = getLockInfo();
+      if (!lock) return false;
+      if (Date.now() > lock.unlockAt) {
+        clearLockInfo();
+        return false;
+      }
+      return true;
+    }
+
+    function getAttempts() {
+      const attempts = localStorage.getItem('adminAttempts');
+      return attempts ? parseInt(attempts, 10) : 0;
+    }
+
+    function setAttempts(val) {
+      localStorage.setItem('adminAttempts', val);
+    }
+
+    function resetAttempts() {
+      localStorage.removeItem('adminAttempts');
+    }
+
+    function disableForm(disabled) {
+      document.querySelectorAll('#login-form input, #login-form button').forEach(el => {
+        el.disabled = disabled;
+      });
+    }
+
+    function showLockMessage() {
+      document.getElementById('lock-card').style.display = 'flex';
+    }
+
+    document.getElementById('close-lock-card').addEventListener('click', function() {
+      document.getElementById('lock-card').style.display = 'none';
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (isLocked()) {
+        disableForm(true);
+        showLockMessage();
+      }
+    });
+
     document.getElementById('login-form').addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('La connexion automatique est désactivée. Veuillez utiliser vos identifiants pour vous connecter.');
+
+      if (isLocked()) {
+        disableForm(true);
+        showLockMessage();
+        return;
+      }
+      // Incrémente le nombre de tentatives
+      let attempts = getAttempts() + 1;
+      setAttempts(attempts);
+
+      if (attempts >= MAX_ATTEMPTS) {
+        setLockInfo({ unlockAt: Date.now() + LOCK_DURATION });
+        disableForm(true);
+        showLockMessage();
+      }
     });
   </script>
 </Layout>
