@@ -1,0 +1,158 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// Données d'exemple
+const formations = [
+  {
+    id: 1,
+    title: "Génie Civil",
+    type: "Diplôme d'ingénieur",
+    duration: "3 ans",
+    status: "publié",
+    students: 45
+  },
+  {
+    id: 2,
+    title: "Sciences Agronomiques",
+    type: "Diplôme d'ingénieur",
+    duration: "3 ans",
+    status: "publié",
+    students: 38
+  },
+  {
+    id: 3,
+    title: "Master Intelligence Artificielle",
+    type: "Master",
+    duration: "2 ans",
+    status: "brouillon",
+    students: 0
+  }
+];
+---
+
+<Layout title="Gestion des formations - Administration">
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="container py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <a href="/admin" class="text-secondary-600 hover:text-primary-600">← Retour</a>
+            <h1 class="text-2xl font-bold text-primary-800">Gestion des formations</h1>
+          </div>
+          <a href="/admin/formations/nouvelle" class="btn btn-primary">Nouvelle formation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container py-8">
+      <!-- Filtres -->
+      <div class="bg-white p-6 rounded-lg shadow-soft mb-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+            <select class="border border-gray-300 rounded-md px-3 py-2">
+              <option>Tous</option>
+              <option>Diplôme d'ingénieur</option>
+              <option>Master</option>
+              <option>Licence</option>
+              <option>Formation continue</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+            <select class="border border-gray-300 rounded-md px-3 py-2">
+              <option>Tous</option>
+              <option>Publié</option>
+              <option>Brouillon</option>
+              <option>Archivé</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
+            <input type="text" placeholder="Nom de la formation..." class="border border-gray-300 rounded-md px-3 py-2">
+          </div>
+          <div class="mt-6">
+            <button class="btn btn-outline">Filtrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liste des formations -->
+      <div class="bg-white rounded-lg shadow-soft overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Formation
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Type
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Durée
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Étudiants
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Statut
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {formations.map(formation => (
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900">{formation.title}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {formation.type}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {formation.duration}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {formation.students} étudiants
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      formation.status === 'publié' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {formation.status}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                    <a href={`/admin/formations/modifier/${formation.id}`} class="text-indigo-600 hover:text-indigo-900">
+                      Modifier
+                    </a>
+                    <a href={`/formation/${formation.title.toLowerCase().replace(/ /g, '-')}`} class="text-green-600 hover:text-green-900" target="_blank">
+                      Voir
+                    </a>
+                    <button class="text-red-600 hover:text-red-900" onclick={`deleteFormation(${formation.id})`}>
+                      Supprimer
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function deleteFormation(id) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+        console.log('Suppression de la formation', id);
+      }
+    }
+  </script>
+</Layout>
