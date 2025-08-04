@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+export const prerender = false;
 ---
 
 <Layout title="Connexion - Administration">
@@ -119,85 +120,26 @@ import Layout from '../../layouts/Layout.astro';
   </div>
 
   <script>
-    // Gestion du nombre de tentatives de connexion
-    const MAX_ATTEMPTS = 3;
-    const LOCK_DURATION = 10 * 60 * 1000; // 10 minutes en ms
+  document.getElementById('login-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const form = new FormData(this);
 
-    function getLockInfo() {
-      const lock = localStorage.getItem('adminLock');
-      if (!lock) return null;
-      return JSON.parse(lock);
-    }
-
-    function setLockInfo(info) {
-      localStorage.setItem('adminLock', JSON.stringify(info));
-    }
-
-    function clearLockInfo() {
-      localStorage.removeItem('adminLock');
-    }
-
-    function isLocked() {
-      const lock = getLockInfo();
-      if (!lock) return false;
-      if (Date.now() > lock.unlockAt) {
-        clearLockInfo();
-        return false;
-      }
-      return true;
-    }
-
-    function getAttempts() {
-      const attempts = localStorage.getItem('adminAttempts');
-      return attempts ? parseInt(attempts, 10) : 0;
-    }
-
-    function setAttempts(val) {
-      localStorage.setItem('adminAttempts', val);
-    }
-
-    function resetAttempts() {
-      localStorage.removeItem('adminAttempts');
-    }
-
-    function disableForm(disabled) {
-      document.querySelectorAll('#login-form input, #login-form button').forEach(el => {
-        el.disabled = disabled;
-      });
-    }
-
-    function showLockMessage() {
-      document.getElementById('lock-card').style.display = 'flex';
-    }
-
-    document.getElementById('close-lock-card').addEventListener('click', function() {
-      document.getElementById('lock-card').style.display = 'none';
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      body: form
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-      if (isLocked()) {
-        disableForm(true);
-        showLockMessage();
-      }
-    });
+    const data = await res.json();
 
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
+    if (data.error === 'LOCKED') {
+      disableForm(true);
+      showLockMessage();
+    } else if (!data.success) {
+      alert(data.message);
+    } else {
+      window.location.href = '/admin/dashboard';
+    }
+  });
+</script>
 
-      if (isLocked()) {
-        disableForm(true);
-        showLockMessage();
-        return;
-      }
-      // Incrémente le nombre de tentatives
-      let attempts = getAttempts() + 1;
-      setAttempts(attempts);
-
-      if (attempts >= MAX_ATTEMPTS) {
-        setLockInfo({ unlockAt: Date.now() + LOCK_DURATION });
-        disableForm(true);
-        showLockMessage();
-      }
-    });
-  </script>
 </Layout>

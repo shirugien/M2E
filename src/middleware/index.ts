@@ -1,4 +1,8 @@
+// src/middleware/index.ts
 import { sequence } from 'astro/middleware';
-import { securityHeaders } from './security';
+import { bruteForceProtection, securityHeaders } from './security';
 
-export const onRequest = sequence(securityHeaders);
+export const onRequest = sequence(
+  bruteForceProtection,
+  securityHeaders     
+);

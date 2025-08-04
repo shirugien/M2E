@@ -1,13 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// Désactivation de la connexion automatique
-const isAuthenticated = false; // Toujours faux pour forcer la redirection
-
-if (!isAuthenticated) {
-  return Astro.redirect('/admin/login');
-}
-
 const stats = {
   articles: 12,
   events: 8,
