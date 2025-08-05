@@ -132,29 +132,3 @@ const categories = ["Tous", "Événement", "International", "Formation", "Recher
   </section>
 </Layout>
 
-<script>
-  import { supabase } from '../../lib/supabase';
-
-  const form = document.getElementById('newsletter-form');
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get('email');
-
-    try {
-      const { error } = await supabase
-        .from('newsletter_subscribers')
-        .insert([{ email }]);
-
-      if (error) throw error;
-
-      alert('Merci pour votre inscription !');
-      (e.target as HTMLFormElement).reset();
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Une erreur est survenue. Veuillez réessayer plus tard.');
-    }
-  });
-</script>
