@@ -1,6 +1,6 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import * as articlesController from '../../api/articles.controller.js';
+export const prerender = false;
 ---
 
 <Layout title="Nouvel article - Administration">
@@ -220,15 +220,33 @@ import * as articlesController from '../../api/articles.controller.js';
     }
 
     // Soumission du formulaire
-    document.getElementById('article-form').addEventListener('submit', function(e) {
+    document.getElementById('article-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
       
-      // Ici, vous ajouteriez la logique pour envoyer les données à votre API
-      console.log('Données du formulaire:', Object.fromEntries(formData));
-      
-      alert('Article sauvegardé avec succès !');
+      try {
+        const response = await fetch('/api/articles', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          alert('Article sauvegardé avec succès !');
+          window.location.href = '/admin/actualites';
+        } else {
+          alert('Erreur lors de la sauvegarde : ' + result.message);
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la sauvegarde de l\'article');
+      }
     });
   </script>
 </Layout>

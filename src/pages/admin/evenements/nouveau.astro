@@ -1,5 +1,6 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+export const prerender = false;
 ---
 
 <Layout title="Nouvel événement - Administration">
@@ -289,14 +290,33 @@ import Layout from '../../../layouts/Layout.astro';
     }
 
     // Soumission du formulaire
-    document.getElementById('event-form').addEventListener('submit', function(e) {
+    document.getElementById('event-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
       
-      console.log('Données de l\'événement:', Object.fromEntries(formData));
-      
-      alert('Événement sauvegardé avec succès !');
+      try {
+        const response = await fetch('/api/events', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          alert('Événement sauvegardé avec succès !');
+          window.location.href = '/admin/evenements';
+        } else {
+          alert('Erreur lors de la sauvegarde : ' + result.message);
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la sauvegarde de l\'événement');
+      }
     });
   </script>
 </Layout>

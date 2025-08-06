@@ -1,38 +1,22 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { getAllHomepageData } from '../../api/data.js';
-import * as formationsController from '../../api/formations.controller.js';
+export const prerender = false;
 
-// Récupération dynamique des formations depuis la base de données
+// Récupération des formations depuis l'API
 let formations = [];
 let error = null;
 
-// Valeurs des filtres (par défaut)
-let filterType = 'Tous';
-let filterStatus = 'Tous';
-let filterSearch = '';
-
 try {
-  const { formations: dbFormations, error: dbError } = await getAllHomepageData();
-  formations = dbFormations || [];
-  error = dbError || null;
+  const response = await fetch(`${Astro.url.origin}/api/formations`);
+  const data = await response.json();
+  if (data.success) {
+    formations = data.formations;
+  } else {
+    error = data.error;
+  }
 } catch (err) {
   error = err.message;
 }
-
-// Fonction de filtrage côté serveur (pour usage SSR Astro)
-function filterFormations(list, type, status, search) {
-  return list.filter(f => {
-    const matchType = type === 'Tous' || f.type === type;
-    const matchStatus = status === 'Tous' || f.status === status;
-    const matchSearch = !search || f.title.toLowerCase().includes(search.toLowerCase());
-    return matchType && matchStatus && matchSearch;
-  });
-}
-
-// Pour appliquer les filtres, il faut récupérer les valeurs des filtres côté client (JS) et recharger la page avec les bons paramètres.
-// Ici, on montre comment utiliser la fonction côté serveur si besoin.
-let filteredFormations = filterFormations(formations, filterType, filterStatus, filterSearch);
 ---
 
 <Layout title="Gestion des formations - Administration">
@@ -86,16 +70,16 @@ let filteredFormations = filterFormations(formations, filterType, filterStatus, 
 
       <!-- Liste des formations -->
       <div class="bg-white rounded-lg shadow-soft overflow-hidden">
-        <div class="overflow-x-auto">
           {error ? (
             <div class="py-8 text-center text-red-600">
-              <p>Erreur lors du chargement des formations.</p>
+              <p>Erreur lors du chargement des formations : {error}</p>
             </div>
-          ) : filteredFormations.length === 0 ? (
+          ) : formations.length === 0 ? (
             <div class="py-8 text-center text-gray-600">
-              <p>Aucune formation disponible.</p>
+              <p>Aucune formation trouvée.</p>
             </div>
           ) : (
+        <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
@@ -120,29 +104,29 @@ let filteredFormations = filterFormations(formations, filterType, filterStatus, 
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-                {filteredFormations.map(formation => (
+                {formations.map(formation => (
                   <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="text-sm font-medium text-gray-900">{formation.title}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {formation.type}
+                      {formation.type || 'Non spécifié'}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {formation.duration}
+                      {formation.duration || 'Non spécifié'}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {formation.students} étudiants
+                      {formation.students || 0} étudiants
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                       <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        formation.status === 'publié' 
+                        formation.status === 'published' 
                           ? 'bg-green-100 text-green-800' 
-                          : formation.status === 'archivé'
+                          : formation.status === 'archived'
                           ? 'bg-gray-200 text-gray-700'
                           : 'bg-yellow-100 text-yellow-800'
                       }`}>
-                        {formation.status}
+                        {formation.status === 'published' ? 'Publié' : formation.status === 'archived' ? 'Archivé' : 'Brouillon'}
                       </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
@@ -160,44 +144,39 @@ let filteredFormations = filterFormations(formations, filterType, filterStatus, 
                 ))}
               </tbody>
             </table>
-          )}
         </div>
+          )}
       </div>
     </div>
   </div>
 
   <script>
-    function deleteFormation(id) {
-      if (confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
-        // Ici, vous pouvez appeler une API qui utilise formationsController.deleteFormation(id)
-        // Exemple :
-        // fetch(`/api/formations/${id}`, { method: 'DELETE' }).then(() => location.reload());
-        console.log('Suppression de la formation', id);
+    async function deleteFormation(id) {
+      if (!confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/formations', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          alert('Formation supprimée avec succès');
+          window.location.reload();
+        } else {
+          alert('Erreur lors de la suppression : ' + data.message);
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la suppression de la formation');
       }
     }
-
-    // Ajout du filtrage côté client
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('filterForm');
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const type = form.type.value;
-        const status = form.status.value;
-        const search = form.search.value;
-
-        // Met à jour l'URL avec les paramètres de filtre et recharge la page
-        const params = new URLSearchParams(window.location.search);
-        params.set('type', type);
-        params.set('status', status);
-        params.set('search', search);
-        window.location.search = params.toString();
-      });
-
-      // Pré-remplit les filtres si des paramètres sont présents dans l'URL
-      const params = new URLSearchParams(window.location.search);
-      if (params.has('type')) form.type.value = params.get('type');
-      if (params.has('status')) form.status.value = params.get('status');
-      if (params.has('search')) form.search.value = params.get('search');
-    });
   </script>
 </Layout>

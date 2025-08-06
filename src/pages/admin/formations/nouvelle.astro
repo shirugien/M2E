@@ -1,0 +1,228 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+export const prerender = false;
+---
+
+<Layout title="Nouvelle formation - Administration">
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="container py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <a href="/admin/formations" class="text-secondary-600 hover:text-primary-600">← Retour</a>
+            <h1 class="text-2xl font-bold text-primary-800">Nouvelle formation</h1>
+          </div>
+          <div class="flex space-x-2">
+            <button type="button" class="btn btn-outline" onclick="saveAsDraft()">Enregistrer comme brouillon</button>
+            <button type="submit" form="formation-form" class="btn btn-primary">Publier</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container py-8">
+      <form id="formation-form" class="space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Contenu principal -->
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Informations de base -->
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Informations générales</h3>
+              <div class="space-y-4">
+                <div>
+                  <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Titre de la formation *</label>
+                  <input 
+                    type="text" 
+                    id="title" 
+                    name="title" 
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Nom de la formation"
+                  />
+                </div>
+                <div>
+                  <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description *</label>
+                  <textarea 
+                    id="description" 
+                    name="description" 
+                    rows="4"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Description détaillée de la formation"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Détails de la formation -->
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Détails de la formation</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Type *</label>
+                  <select 
+                    id="type" 
+                    name="type" 
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  >
+                    <option value="">Sélectionner un type</option>
+                    <option value="Techniques">Techniques</option>
+                    <option value="Science">Science</option>
+                    <option value="Santé">Santé</option>
+                    <option value="Droit">Droit</option>
+                    <option value="Economie">Économie</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="duration" class="block text-sm font-medium text-gray-700 mb-2">Durée *</label>
+                  <input 
+                    type="text" 
+                    id="duration" 
+                    name="duration" 
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Ex: 3 ans, 2 semestres..."
+                  />
+                </div>
+                <div>
+                  <label for="level" class="block text-sm font-medium text-gray-700 mb-2">Niveau</label>
+                  <select 
+                    id="level" 
+                    name="level"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  >
+                    <option value="">Sélectionner un niveau</option>
+                    <option value="Licence">Licence</option>
+                    <option value="Master">Master</option>
+                    <option value="Doctorat">Doctorat</option>
+                    <option value="Diplôme d'ingénieur">Diplôme d'ingénieur</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="students" class="block text-sm font-medium text-gray-700 mb-2">Nombre d'étudiants</label>
+                  <input 
+                    type="number" 
+                    id="students" 
+                    name="students" 
+                    min="0"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Programme et objectifs -->
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Programme et objectifs</h3>
+              <div class="space-y-4">
+                <div>
+                  <label for="objectives" class="block text-sm font-medium text-gray-700 mb-2">Objectifs pédagogiques</label>
+                  <textarea 
+                    id="objectives" 
+                    name="objectives" 
+                    rows="3"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Objectifs de la formation..."
+                  ></textarea>
+                </div>
+                <div>
+                  <label for="program" class="block text-sm font-medium text-gray-700 mb-2">Programme détaillé</label>
+                  <textarea 
+                    id="program" 
+                    name="program" 
+                    rows="5"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Détail du programme par semestre/année..."
+                  ></textarea>
+                </div>
+                <div>
+                  <label for="requirements" class="block text-sm font-medium text-gray-700 mb-2">Prérequis</label>
+                  <textarea 
+                    id="requirements" 
+                    name="requirements" 
+                    rows="3"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Conditions d'admission et prérequis..."
+                  ></textarea>
+                </div>
+                <div>
+                  <label for="career_prospects" class="block text-sm font-medium text-gray-700 mb-2">Débouchés professionnels</label>
+                  <textarea 
+                    id="career_prospects" 
+                    name="career_prospects" 
+                    rows="3"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Métiers et secteurs d'activité..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="space-y-6">
+            <!-- Statut -->
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Publication</h3>
+              <div class="space-y-4">
+                <div>
+                  <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                  <select 
+                    id="status" 
+                    name="status"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  >
+                    <option value="draft">Brouillon</option>
+                    <option value="published">Publié</option>
+                    <option value="archived">Archivé</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Sauvegarde en brouillon
+    function saveAsDraft() {
+      document.getElementById('status').value = 'draft';
+      document.getElementById('formation-form').submit();
+    }
+
+    // Soumission du formulaire
+    document.getElementById('formation-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        const response = await fetch('/api/formations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          alert('Formation sauvegardée avec succès !');
+          window.location.href = '/admin/formations';
+        } else {
+          alert('Erreur lors de la sauvegarde : ' + result.message);
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la sauvegarde de la formation');
+      }
+    });
+  </script>
+</Layout>

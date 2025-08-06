@@ -3,10 +3,10 @@ import mysql from 'mysql2/promise';
 import 'dotenv/config';
 
 const dbConfig = {
-  host: process.env.MYSQL_HOST || 'localhost',
-  user: process.env.MYSQL_USER || 'root',
-  password: process.env.MYSQL_PASSWORD || '',
-  database: process.env.MYSQL_DATABASE || 'test',
+  host: process.env.MYSQL_HOST || 'm2edb.m2epolytech.com',
+  user: process.env.MYSQL_USER || 'azeto',
+  password: process.env.MYSQL_PASSWORD || 'x',
+  database: process.env.MYSQL_DATABASE || 'm2e_db',
   port: Number(process.env.MYSQL_PORT) || 3306,
   timezone: 'Z',
   waitForConnections: true,

@@ -1,15 +1,41 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+export const prerender = false;
 
-const stats = {
-  articles: 12,
-  events: 8,
-  formations: 7,
-  contacts: 25
+// Récupération des statistiques depuis les APIs
+let stats = {
+  articles: 0,
+  events: 0,
+  formations: 0,
+  contacts: 0
 };
+
+try {
+  // Récupérer les statistiques depuis les différentes APIs
+  const [articlesRes, eventsRes, formationsRes, contactsRes] = await Promise.all([
+    fetch(`${Astro.url.origin}/api/articles`),
+    fetch(`${Astro.url.origin}/api/events`),
+    fetch(`${Astro.url.origin}/api/formations`),
+    fetch(`${Astro.url.origin}/api/contacts`)
+  ]);
+
+  const [articlesData, eventsData, formationsData, contactsData] = await Promise.all([
+    articlesRes.json(),
+    eventsRes.json(),
+    formationsRes.json(),
+    contactsRes.json()
+  ]);
+
+  stats.articles = articlesData.success ? articlesData.articles.length : 0;
+  stats.events = eventsData.success ? eventsData.events.length : 0;
+  stats.formations = formationsData.success ? formationsData.formations.length : 0;
+  stats.contacts = contactsData.success ? contactsData.messages.length : 0;
+} catch (error) {
+  console.error('Erreur lors de la récupération des statistiques:', error);
+}
 ---
 
-<Layout title="Administration - M2E Polytech">
+<Layout title="Dashboard - Administration M2E Polytech">
   <div class="min-h-screen bg-gray-50">
     <!-- Header Admin -->
     <header class="bg-white shadow-sm border-b">
@@ -17,11 +43,11 @@ const stats = {
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-4">
             <img src="/assets/img/logo.png" alt="M2E Polytech" class="h-8" />
-            <h1 class="text-2xl font-bold text-primary-800">Administration</h1>
+            <h1 class="text-2xl font-bold text-primary-800">Dashboard Administration</h1>
           </div>
           <div class="flex items-center space-x-4">
             <a href="/" class="text-secondary-600 hover:text-primary-600">Voir le site</a>
-            <button class="btn btn-outline">Déconnexion</button>
+            <button class="btn btn-outline" onclick="logout()">Déconnexion</button>
           </div>
         </div>
       </div>
@@ -156,22 +182,6 @@ const stats = {
           </div>
         </div>
 
-        <!-- Gestion des utilisateurs -->
-        <div class="bg-white p-6 rounded-lg shadow-soft">
-          <div class="flex items-center mb-4">
-            <div class="bg-red-100 p-3 rounded-full mr-4">
-              <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
-              </svg>
-            </div>
-            <h2 class="text-xl font-bold">Utilisateurs</h2>
-          </div>
-          <p class="text-gray-600 mb-4">Gérer les comptes administrateurs</p>
-          <div class="space-y-2">
-            <a href="/admin/utilisateurs" class="block w-full btn btn-primary">Gérer les utilisateurs</a>
-          </div>
-        </div>
-
         <!-- Paramètres du site -->
         <div class="bg-white p-6 rounded-lg shadow-soft">
           <div class="flex items-center mb-4">
@@ -191,4 +201,14 @@ const stats = {
       </div>
     </div>
   </div>
+
+  <script>
+    function logout() {
+      if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+        // Supprimer le cookie d'authentification
+        document.cookie = 'auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.href = '/admin/login';
+      }
+    }
+  </script>
 </Layout>

@@ -1,36 +1,22 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+export const prerender = false;
 
-// Données d'exemple
-const messages = [
-  {
-    id: 1,
-    name: "Marie Dupont",
-    email: "marie.dupont@email.com",
-    subject: "Demande d'information sur les formations",
-    date: "2025-01-15",
-    status: "nouveau",
-    priority: "normale"
-  },
-  {
-    id: 2,
-    name: "Jean Martin",
-    email: "jean.martin@email.com",
-    subject: "Candidature Master IA",
-    date: "2025-01-14",
-    status: "traité",
-    priority: "haute"
-  },
-  {
-    id: 3,
-    name: "Sophie Chen",
-    email: "sophie.chen@email.com",
-    subject: "Partenariat entreprise",
-    date: "2025-01-13",
-    status: "en_cours",
-    priority: "haute"
+// Récupération des messages depuis l'API
+let messages = [];
+let error = null;
+
+try {
+  const response = await fetch(`${Astro.url.origin}/api/contacts`);
+  const data = await response.json();
+  if (data.success) {
+    messages = data.messages;
+  } else {
+    error = data.error;
   }
-];
+} catch (err) {
+  error = err.message;
+}
 ---
 
 <Layout title="Messages de contact - Administration">
@@ -87,6 +73,15 @@ const messages = [
 
       <!-- Liste des messages -->
       <div class="bg-white rounded-lg shadow-soft overflow-hidden">
+        {error ? (
+          <div class="p-8 text-center text-red-600">
+            <p>Erreur lors du chargement des messages : {error}</p>
+          </div>
+        ) : messages.length === 0 ? (
+          <div class="p-8 text-center text-gray-600">
+            <p>Aucun message trouvé.</p>
+          </div>
+        ) : (
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -112,8 +107,8 @@ const messages = [
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              {messages.map(message => (
-                <tr class={`hover:bg-gray-50 ${message.status === 'nouveau' ? 'bg-blue-50' : ''}`}>
+              {messages.map((message, index) => (
+                <tr class={`hover:bg-gray-50 ${message.status === 'nouveau' ? 'bg-blue-50' : ''}`} key={message.id || index}>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div>
                       <div class="text-sm font-medium text-gray-900">{message.name}</div>
@@ -124,17 +119,17 @@ const messages = [
                     <div class="text-sm text-gray-900 max-w-xs truncate">{message.subject}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(message.date).toLocaleDateString('fr-FR')}
+                    {new Date(message.created_at || message.date).toLocaleDateString('fr-FR')}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      message.priority === 'haute' 
+                      (message.priority || 'normale') === 'haute' 
                         ? 'bg-red-100 text-red-800' 
-                        : message.priority === 'normale'
+                        : (message.priority || 'normale') === 'normale'
                         ? 'bg-yellow-100 text-yellow-800'
                         : 'bg-gray-100 text-gray-800'
                     }`}>
-                      {message.priority}
+                      {message.priority || 'normale'}
                     </span>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
@@ -145,7 +140,7 @@ const messages = [
                         ? 'bg-yellow-100 text-yellow-800'
                         : 'bg-green-100 text-green-800'
                     }`}>
-                      {message.status.replace('_', ' ')}
+                      {(message.status || 'nouveau').replace('_', ' ')}
                     </span>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
@@ -164,6 +159,7 @@ const messages = [
             </tbody>
           </table>
         </div>
+        )}
       </div>
     </div>
   </div>
@@ -193,14 +189,14 @@ const messages = [
 
   <script>
     function viewMessage(id) {
-      // Simuler la récupération du message
-      const message = {
-        name: "Marie Dupont",
-        email: "marie.dupont@email.com",
-        subject: "Demande d'information sur les formations",
-        content: "Bonjour,\n\nJe souhaiterais obtenir des informations sur vos formations en génie civil. Pourriez-vous me faire parvenir la brochure et les modalités d'inscription ?\n\nCordialement,\nMarie Dupont",
-        date: "2025-01-15"
-      };
+      // Récupérer le message depuis les données
+      const messages = {{{ JSON.stringify(messages) }}};
+      const message = messages.find(m => m.id == id);
+      
+      if (!message) {
+        alert('Message non trouvé');
+        return;
+      }
 
       document.getElementById('modal-title').textContent = message.subject;
       document.getElementById('modal-content').innerHTML = `
@@ -208,11 +204,11 @@ const messages = [
           <div class="grid grid-cols-2 gap-4 text-sm">
             <div><strong>De:</strong> ${message.name}</div>
             <div><strong>Email:</strong> ${message.email}</div>
-            <div><strong>Date:</strong> ${new Date(message.date).toLocaleDateString('fr-FR')}</div>
+            <div><strong>Date:</strong> ${new Date(message.created_at || message.date).toLocaleDateString('fr-FR')}</div>
           </div>
         </div>
         <div class="bg-white p-4 border rounded-lg">
-          <p class="whitespace-pre-line">${message.content}</p>
+          <p class="whitespace-pre-line">${message.message || 'Aucun contenu'}</p>
         </div>
       `;
       
@@ -224,13 +220,39 @@ const messages = [
     }
 
     function replyMessage(id) {
-      // Logique pour répondre au message
-      console.log('Répondre au message', id);
+      const messages = {{{ JSON.stringify(messages) }}};
+      const message = messages.find(m => m.id == id);
+      
+      if (message) {
+        window.location.href = `mailto:${message.email}?subject=Re: ${message.subject}`;
+      }
     }
 
-    function archiveMessage(id) {
-      if (confirm('Archiver ce message ?')) {
-        console.log('Archiver le message', id);
+    async function archiveMessage(id) {
+      if (!confirm('Archiver ce message ?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/contacts', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id, status: 'archive' })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          alert('Message archivé avec succès');
+          window.location.reload();
+        } else {
+          alert('Erreur lors de l\'archivage : ' + data.message);
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de l\'archivage du message');
       }
     }
   </script>
