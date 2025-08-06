@@ -4,54 +4,35 @@ import Hero from '../components/Hero.astro';
 import NewsCard from '../components/NewsCard.astro';
 import EventCard from '../components/EventCard.astro';
 
-// Sample data
-const latestNews = [
-  {
-    title: "Journées portes ouvertes 2025",
-    date: "2025-01-15",
-    excerpt: "Venez découvrir nos campus et nos formations lors des journées portes ouvertes qui se tiendront du 15 au 17 février 2025.",
-    image: "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    url: "/actualites/journees-portes-ouvertes-2025",
-    category: "Événement"
-  },
-  {
-    title: "Nouveau partenariat international avec l'université de Tokyo",
-    date: "2025-01-10",
-    excerpt: "M2E Polytech renforce sa présence à l'international avec un nouveau partenariat avec l'université de Tokyo.",
-    image: "https://images.pexels.com/photos/1563256/pexels-photo-1563256.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    url: "/actualites/partenariat-tokyo",
-    category: "International"
-  },
-  {
-    title: "Lancement du nouveau Master en Intelligence Artificielle",
-    date: "2025-01-05",
-    excerpt: "À partir de septembre 2025, M2E Polytech proposera un nouveau Master spécialisé en Intelligence Artificielle et Systèmes Autonomes.",
-    image: "https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    url: "/actualites/master-intelligence-artificielle",
-    category: "Formation"
-  }
-];
+import { getAllHomepageData } from '../pages/api/data.js';
+export const prerender = false;
 
-const upcomingEvents = [
-  {
-    title: "Conférence sur l'énergie renouvelable",
-    date: "2025-02-15",
-    time: "14:00 - 17:00",
-    location: "Amphi Einstein, Campus Sciences",
-    description: "Une conférence sur les dernières avancées en matière d'énergie renouvelable avec des experts internationaux.",
-    url: "/evenements/conference-energie-renouvelable",
-    category: "Conférence"
-  },
-  {
-    title: "Hackathon DevOps",
-    date: "2025-03-10",
-    time: "09:00 - 18:00",
-    location: "Bâtiment Informatique, Salle 201",
-    description: "Un hackathon de 24h sur le thème des pratiques DevOps modernes, ouvert à tous les étudiants.",
-    url: "/evenements/hackathon-devops",
-    category: "Compétition"
-  }
-];
+// Fonction pour remplacer les valeurs nulles
+function sanitizeData(data, numericFields = []) {
+  return data.map(item => {
+    const sanitized = { ...item };
+    Object.keys(sanitized).forEach(key => {
+      if (sanitized[key] === null || sanitized[key] === undefined) {
+        sanitized[key] = numericFields.includes(key) ? 0 : '';
+      }
+    });
+    return sanitized;
+  });
+}
+
+let latestNews = [];
+let upcomingEvents = [];
+let formations = [];
+let error = null;
+
+try {
+  const { articles, events, formations: dbFormations } = await getAllHomepageData();
+  latestNews = sanitizeData(articles, ['publish_date']);
+  upcomingEvents = sanitizeData(events, ['date', 'time']);
+  formations = sanitizeData(dbFormations, ['students']);
+} catch (err) {
+  error = err.message;
+}
 ---
 
 <Layout title="Accueil">
@@ -110,134 +91,25 @@ const upcomingEvents = [
           </svg>
         </a>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Génie Civil -->
-        <div class="card overflow-hidden group">
-          <div class="relative h-48 overflow-hidden">
-            <img src="/assets/img/formation/genie.jpg" alt="Génie Civil" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Génie Civil</h3>
-          </div>
-          <div class="p-5">
-            <p class="text-secondary-600 mb-4">Des compétences en conception, construction et gestion des infrastructures pour bâtir le monde de demain.</p>
-            <a href="/formation/genie-civil" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
-              Découvrir
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
+      {error ? (
+        <div class="py-8 text-center text-red-600">
+          <p>Impossible de charger les formations.</p>
         </div>
-
-        <!-- Sciences Agronomiques -->
-        <div class="card overflow-hidden group">
-          <div class="relative h-48 overflow-hidden">
-            <img src="/assets/img/formation/agronomie.jpeg" alt="Sciences Agronomiques" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Sciences Agronomiques</h3>
-          </div>
-          <div class="p-5">
-            <p class="text-secondary-600 mb-4">Des compétences pour transformer l’agriculture et assurer la sécurité alimentaire durable.</p>
-            <a href="/formation/agronomie" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
-              Découvrir
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
+      ) : formations.length === 0 ? (
+        <div class="py-8 text-center text-gray-600">
+          <p>Aucune formation disponible.</p>
         </div>
-
-        <!-- Génie informatique, Réseaux et Télécom -->
-        <div class="card overflow-hidden group">
-          <div class="relative h-48 overflow-hidden">
-            <img src="/assets/img/formation/genie_informatique.jpeg" alt="Génie Informatique" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Génie informatique, Réseaux et Télécom</h3>
-          </div>
-          <div class="p-5">
-            <p class="text-secondary-600 mb-4">Une formation tournée vers les technologies numériques, le cloud et la cybersécurité.</p>
-            <a href="/formation/genie-informatique" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
-              Découvrir
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {formations.map(formation => (
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-xl font-bold mb-2">{formation.title}</h3>
+              <p class="text-secondary-700 mb-1">{formation.description}</p>
+              <p class="text-secondary-700 mb-1">Type : {formation.type}</p>
+            </div>
+          ))}
         </div>
-
-        <!-- Santé & Nutrition -->
-        <div class="card overflow-hidden group">
-          <div class="relative h-48 overflow-hidden">
-            <img src="/assets/img/formation/nutrition.jpeg" alt="Santé" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Sciences et Techniques de Santé</h3>
-          </div>
-          <div class="p-5">
-            <p class="text-secondary-600 mb-4">Former des spécialistes pour relever les défis de la santé et de l’alimentation.</p>
-            <a href="/formation/sante" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
-              Découvrir
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Sciences Juridiques -->
-        <div class="card overflow-hidden group">
-          <div class="relative h-48 overflow-hidden">
-            <img src="/assets/img/formation/droit.jpg" alt="Droit" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Sciences Juridiques</h3>
-          </div>
-          <div class="p-5">
-            <p class="text-secondary-600 mb-4">Former des juristes capables d’évoluer dans des environnements nationaux et internationaux complexes.</p>
-            <a href="/formation/droit" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
-              Découvrir
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Sciences économiques et gestion -->
-        <div class="card overflow-hidden group">
-          <div class="relative h-48 overflow-hidden">
-            <img src="/assets/img/formation/science.jpeg" alt="Économie" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Sciences Économiques et Gestion</h3>
-          </div>
-          <div class="p-5">
-            <p class="text-secondary-600 mb-4">Développer des compétences en économie, management et entrepreneuriat dans une perspective durable.</p>
-            <a href="/formation/economie" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
-              Découvrir
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Communication -->
-        <div class="card overflow-hidden group">
-          <div class="relative h-48 overflow-hidden">
-            <img src="/assets/img/formation/communication.jpeg" alt="Communication" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent"></div>
-            <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">Sciences de l’Information et de la Communication</h3>
-          </div>
-          <div class="p-5">
-            <p class="text-secondary-600 mb-4">Préparer les futurs professionnels des médias, de la communication stratégique et du numérique.</p>
-            <a href="/formation/communication" class="text-primary-600 font-medium inline-flex items-center hover:text-primary-700 transition-colors">
-              Découvrir
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   </section>
 

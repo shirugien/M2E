@@ -1,0 +1,237 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// Données d'exemple
+const messages = [
+  {
+    id: 1,
+    name: "Marie Dupont",
+    email: "marie.dupont@email.com",
+    subject: "Demande d'information sur les formations",
+    date: "2025-01-15",
+    status: "nouveau",
+    priority: "normale"
+  },
+  {
+    id: 2,
+    name: "Jean Martin",
+    email: "jean.martin@email.com",
+    subject: "Candidature Master IA",
+    date: "2025-01-14",
+    status: "traité",
+    priority: "haute"
+  },
+  {
+    id: 3,
+    name: "Sophie Chen",
+    email: "sophie.chen@email.com",
+    subject: "Partenariat entreprise",
+    date: "2025-01-13",
+    status: "en_cours",
+    priority: "haute"
+  }
+];
+---
+
+<Layout title="Messages de contact - Administration">
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="container py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <a href="/admin" class="text-secondary-600 hover:text-primary-600">← Retour</a>
+            <h1 class="text-2xl font-bold text-primary-800">Messages de contact</h1>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-1 rounded-full">
+              3 nouveaux
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container py-8">
+      <!-- Filtres -->
+      <div class="bg-white p-6 rounded-lg shadow-soft mb-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+            <select class="border border-gray-300 rounded-md px-3 py-2">
+              <option>Tous</option>
+              <option>Nouveau</option>
+              <option>En cours</option>
+              <option>Traité</option>
+              <option>Archivé</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Priorité</label>
+            <select class="border border-gray-300 rounded-md px-3 py-2">
+              <option>Toutes</option>
+              <option>Haute</option>
+              <option>Normale</option>
+              <option>Basse</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
+            <input type="text" placeholder="Nom, email ou sujet..." class="border border-gray-300 rounded-md px-3 py-2">
+          </div>
+          <div class="mt-6">
+            <button class="btn btn-outline">Filtrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liste des messages -->
+      <div class="bg-white rounded-lg shadow-soft overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Expéditeur
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Sujet
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Priorité
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Statut
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {messages.map(message => (
+                <tr class={`hover:bg-gray-50 ${message.status === 'nouveau' ? 'bg-blue-50' : ''}`}>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">{message.name}</div>
+                      <div class="text-sm text-gray-500">{message.email}</div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="text-sm text-gray-900 max-w-xs truncate">{message.subject}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(message.date).toLocaleDateString('fr-FR')}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      message.priority === 'haute' 
+                        ? 'bg-red-100 text-red-800' 
+                        : message.priority === 'normale'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {message.priority}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      message.status === 'nouveau' 
+                        ? 'bg-blue-100 text-blue-800' 
+                        : message.status === 'en_cours'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-green-100 text-green-800'
+                    }`}>
+                      {message.status.replace('_', ' ')}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                    <button onclick={`viewMessage(${message.id})`} class="text-indigo-600 hover:text-indigo-900">
+                      Voir
+                    </button>
+                    <button onclick={`replyMessage(${message.id})`} class="text-green-600 hover:text-green-900">
+                      Répondre
+                    </button>
+                    <button onclick={`archiveMessage(${message.id})`} class="text-gray-600 hover:text-gray-900">
+                      Archiver
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour voir le message -->
+  <div id="message-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+      <div class="mt-3">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-900" id="modal-title">Message de contact</h3>
+          <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div id="modal-content" class="space-y-4">
+          <!-- Contenu du message sera inséré ici -->
+        </div>
+        <div class="flex justify-end space-x-2 mt-6">
+          <button onclick="closeModal()" class="btn btn-outline">Fermer</button>
+          <button class="btn btn-primary">Répondre</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function viewMessage(id) {
+      // Simuler la récupération du message
+      const message = {
+        name: "Marie Dupont",
+        email: "marie.dupont@email.com",
+        subject: "Demande d'information sur les formations",
+        content: "Bonjour,\n\nJe souhaiterais obtenir des informations sur vos formations en génie civil. Pourriez-vous me faire parvenir la brochure et les modalités d'inscription ?\n\nCordialement,\nMarie Dupont",
+        date: "2025-01-15"
+      };
+
+      document.getElementById('modal-title').textContent = message.subject;
+      document.getElementById('modal-content').innerHTML = `
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div><strong>De:</strong> ${message.name}</div>
+            <div><strong>Email:</strong> ${message.email}</div>
+            <div><strong>Date:</strong> ${new Date(message.date).toLocaleDateString('fr-FR')}</div>
+          </div>
+        </div>
+        <div class="bg-white p-4 border rounded-lg">
+          <p class="whitespace-pre-line">${message.content}</p>
+        </div>
+      `;
+      
+      document.getElementById('message-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('message-modal').classList.add('hidden');
+    }
+
+    function replyMessage(id) {
+      // Logique pour répondre au message
+      console.log('Répondre au message', id);
+    }
+
+    function archiveMessage(id) {
+      if (confirm('Archiver ce message ?')) {
+        console.log('Archiver le message', id);
+      }
+    }
+  </script>
+</Layout>

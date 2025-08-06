@@ -1,0 +1,203 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getAllHomepageData } from '../../api/data.js';
+import * as formationsController from '../../api/formations.controller.js';
+
+// Récupération dynamique des formations depuis la base de données
+let formations = [];
+let error = null;
+
+// Valeurs des filtres (par défaut)
+let filterType = 'Tous';
+let filterStatus = 'Tous';
+let filterSearch = '';
+
+try {
+  const { formations: dbFormations, error: dbError } = await getAllHomepageData();
+  formations = dbFormations || [];
+  error = dbError || null;
+} catch (err) {
+  error = err.message;
+}
+
+// Fonction de filtrage côté serveur (pour usage SSR Astro)
+function filterFormations(list, type, status, search) {
+  return list.filter(f => {
+    const matchType = type === 'Tous' || f.type === type;
+    const matchStatus = status === 'Tous' || f.status === status;
+    const matchSearch = !search || f.title.toLowerCase().includes(search.toLowerCase());
+    return matchType && matchStatus && matchSearch;
+  });
+}
+
+// Pour appliquer les filtres, il faut récupérer les valeurs des filtres côté client (JS) et recharger la page avec les bons paramètres.
+// Ici, on montre comment utiliser la fonction côté serveur si besoin.
+let filteredFormations = filterFormations(formations, filterType, filterStatus, filterSearch);
+---
+
+<Layout title="Gestion des formations - Administration">
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="container py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <a href="/admin" class="text-secondary-600 hover:text-primary-600">← Retour</a>
+            <h1 class="text-2xl font-bold text-primary-800">Gestion des formations</h1>
+          </div>
+          <a href="/admin/formations/nouvelle" class="btn btn-primary">Nouvelle formation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container py-8">
+      <!-- Filtres -->
+      <div class="bg-white p-6 rounded-lg shadow-soft mb-6">
+        <form id="filterForm" class="flex flex-wrap gap-4 items-center" method="GET">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+            <select name="type" id="typeFilter" class="border border-gray-300 rounded-md px-3 py-2">
+              <option>Tous</option>
+              <option>Techniques</option>
+              <option>Science</option>
+              <option>Santé</option>
+              <option>Droit</option>
+              <option>Economie</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+            <select name="status" class="border border-gray-300 rounded-md px-3 py-2">
+              <option>Tous</option>
+              <option>publié</option>
+              <option>brouillon</option>
+              <option>archivé</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
+            <input name="search" type="text" placeholder="Nom de la formation..." class="border border-gray-300 rounded-md px-3 py-2">
+          </div>
+          <div class="mt-6">
+            <button type="submit" class="btn btn-outline">Filtrer</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Liste des formations -->
+      <div class="bg-white rounded-lg shadow-soft overflow-hidden">
+        <div class="overflow-x-auto">
+          {error ? (
+            <div class="py-8 text-center text-red-600">
+              <p>Erreur lors du chargement des formations.</p>
+            </div>
+          ) : filteredFormations.length === 0 ? (
+            <div class="py-8 text-center text-gray-600">
+              <p>Aucune formation disponible.</p>
+            </div>
+          ) : (
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Formation
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Type
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Durée
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Étudiants
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Statut
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                {filteredFormations.map(formation => (
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">{formation.title}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {formation.type}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {formation.duration}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {formation.students} étudiants
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        formation.status === 'publié' 
+                          ? 'bg-green-100 text-green-800' 
+                          : formation.status === 'archivé'
+                          ? 'bg-gray-200 text-gray-700'
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {formation.status}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                      <a href={`/admin/formations/modifier/${formation.id}`} class="text-indigo-600 hover:text-indigo-900">
+                        Modifier
+                      </a>
+                      <a href={`/formation/${formation.title.toLowerCase().replace(/ /g, '-')}`} class="text-green-600 hover:text-green-900" target="_blank">
+                        Voir
+                      </a>
+                      <button class="text-red-600 hover:text-red-900" onclick={`deleteFormation(${formation.id})`}>
+                        Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function deleteFormation(id) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+        // Ici, vous pouvez appeler une API qui utilise formationsController.deleteFormation(id)
+        // Exemple :
+        // fetch(`/api/formations/${id}`, { method: 'DELETE' }).then(() => location.reload());
+        console.log('Suppression de la formation', id);
+      }
+    }
+
+    // Ajout du filtrage côté client
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('filterForm');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const type = form.type.value;
+        const status = form.status.value;
+        const search = form.search.value;
+
+        // Met à jour l'URL avec les paramètres de filtre et recharge la page
+        const params = new URLSearchParams(window.location.search);
+        params.set('type', type);
+        params.set('status', status);
+        params.set('search', search);
+        window.location.search = params.toString();
+      });
+
+      // Pré-remplit les filtres si des paramètres sont présents dans l'URL
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('type')) form.type.value = params.get('type');
+      if (params.has('status')) form.status.value = params.get('status');
+      if (params.has('search')) form.search.value = params.get('search');
+    });
+  </script>
+</Layout>
