@@ -1,0 +1,61 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Hero from '../../../../components/Hero.astro';
+---
+
+<Layout 
+  title="Nos étudiants récompensés au concours national d'innovation"
+  description="L'équipe de M2E Polytech remporte le premier prix du concours national d'innovation étudiante avec leur projet AgriBot."
+>
+  <Hero
+    title="Prix national d'innovation 2024"
+    subtitle="Nos étudiants brillent au concours national d'innovation"
+    background="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600"
+    height="medium"
+  />
+
+  <article class="section bg-white">
+    <div class="container">
+      <div class="max-w-4xl mx-auto">
+        <div class="prose prose-lg max-w-none">
+          <div class="bg-primary-50 border-l-4 border-primary-600 p-6 mb-8">
+            <h2 class="text-primary-800 mb-2">🏆 Étudiants</h2>
+            <p class="text-primary-700 mb-0">
+              <strong>10 décembre 2024</strong> - Premier prix du concours national d'innovation étudiante pour le projet AgriBot
+            </p>
+          </div>
+
+          <p class="text-xl text-secondary-700 mb-8">
+            Une équipe de cinq étudiants de M2E Polytech a remporté le premier prix du concours national d'innovation étudiante. Leur projet AgriBot, un robot autonome pour l'agriculture de précision, a séduit le jury.
+          </p>
+
+          <h2>Le projet AgriBot</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="card p-6">
+              <h3 class="text-primary-600 mb-4">🤖 Fonctionnalités principales</h3>
+              <ul class="space-y-2">
+                <li>• Navigation autonome par GPS et capteurs</li>
+                <li>• Analyse de la qualité des sols en temps réel</li>
+                <li>• Application précise d'engrais et pesticides</li>
+                <li>• Détection précoce des maladies des cultures</li>
+                <li>• Collecte de données pour l'agriculture de précision</li>
+              </ul>
+            </div>
+            
+            <div class="card p-6">
+              <h3 class="text-primary-600 mb-4">🌱 Impact environnemental</h3>
+              <ul class="space-y-2">
+                <li>• Réduction de 40% de l'usage de pesticides</li>
+                <li>• Optimisation de l'irrigation (-30% d'eau)</li>
+                <li>• Diminution de l'empreinte carbone</li>
+                <li>• Préservation de la biodiversité</li>
+                <li>• Agriculture durable et responsable</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>

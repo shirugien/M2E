@@ -155,54 +155,6 @@ const activities = [
               </div>
             ))}
           </div>
-
-          <h2>Informations pratiques</h2>
-          
-          <div class="bg-gray-50 p-6 rounded-lg mb-8">
-            <h3 class="font-bold mb-4">📍 Accès et transport</h3>
-            <ul class="space-y-2">
-              <li><strong>Adresse :</strong> Campus Scientifique, 54500 Vandœuvre-lès-Nancy</li>
-              <li><strong>Transport en commun :</strong> Ligne de bus 16, arrêt "M2E Polytech"</li>
-              <li><strong>Parking :</strong> Parking gratuit disponible sur le campus</li>
-              <li><strong>Accessibilité :</strong> Tous nos bâtiments sont accessibles aux personnes à mobilité réduite</li>
-            </ul>
-          </div>
-
-          <div class="bg-gray-50 p-6 rounded-lg mb-8">
-            <h3 class="font-bold mb-4">🍽️ Restauration</h3>
-            <ul class="space-y-2">
-              <li>Restaurant universitaire ouvert de 11h30 à 14h00</li>
-              <li>Cafétéria disponible toute la journée</li>
-              <li>Espaces pique-nique aménagés sur le campus</li>
-            </ul>
-          </div>
-
-          <h2>Témoignages d'anciens participants</h2>
-          
-          <div class="space-y-6 mb-8">
-            <blockquote class="border-l-4 border-primary-600 pl-6 py-4 bg-primary-50">
-              <p class="italic mb-2">"Les journées portes ouvertes m'ont permis de découvrir la richesse des formations proposées. J'ai pu échanger avec des étudiants et des professeurs, ce qui m'a conforté dans mon choix d'intégrer M2E Polytech."</p>
-              <cite class="font-semibold">— Sarah M., étudiante en Génie Civil</cite>
-            </blockquote>
-            
-            <blockquote class="border-l-4 border-primary-600 pl-6 py-4 bg-primary-50">
-              <p class="italic mb-2">"La visite des laboratoires d'informatique m'a impressionné. Les équipements sont modernes et les projets étudiants très innovants. C'est ce qui m'a décidé à candidater."</p>
-              <cite class="font-semibold">— Thomas L., étudiant en Génie Informatique</cite>
-            </blockquote>
-          </div>
-
-          <h2>Préparez votre visite</h2>
-          
-          <div class="bg-accent-50 border border-accent-200 p-6 rounded-lg mb-8">
-            <h3 class="font-bold mb-4 text-accent-800">💡 Nos conseils</h3>
-            <ul class="space-y-2 text-accent-700">
-              <li>• Préparez vos questions à l'avance</li>
-              <li>• Apportez vos derniers bulletins de notes</li>
-              <li>• Venez accompagné de vos parents si vous le souhaitez</li>
-              <li>• Prévoyez du temps pour visiter plusieurs formations</li>
-              <li>• N'hésitez pas à échanger avec les étudiants actuels</li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
@@ -224,62 +176,7 @@ const activities = [
             Poser une question
           </a>
         </div>
-        <p class="text-sm text-white/80 mt-6">
-          Pour toute question : <a href="mailto:jpo@m2epolytech.fr" class="underline">jpo@m2epolytech.fr</a> | 
-          <a href="tel:+33383684200" class="underline">+33 (0)3 83 68 42 00</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Related articles -->
-  <section class="section bg-gray-50">
-    <div class="container">
-      <h2 class="text-center mb-8">Articles liés</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <article class="card overflow-hidden">
-          <img src="https://images.pexels.com/photos/1563256/pexels-photo-1563256.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Partenariat Tokyo" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="font-bold mb-2">Nouveau partenariat avec l'université de Tokyo</h3>
-            <p class="text-secondary-600 mb-4">M2E Polytech renforce sa présence internationale...</p>
-            <a href="/actualites/partenariat-tokyo" class="text-primary-600 font-medium">Lire la suite →</a>
-          </div>
-        </article>
-        
-        <article class="card overflow-hidden">
-          <img src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Master IA" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="font-bold mb-2">Nouveau Master en Intelligence Artificielle</h3>
-            <p class="text-secondary-600 mb-4">À partir de septembre 2025, découvrez notre nouveau Master...</p>
-            <a href="/actualites/master-intelligence-artificielle" class="text-primary-600 font-medium">Lire la suite →</a>
-          </div>
-        </article>
-        
-        <article class="card overflow-hidden">
-          <img src="https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Journée recherche" class="w-full h-48 object-cover">
-          <div class="p-6">
-            <h3 class="font-bold mb-2">Succès de la journée recherche 2024</h3>
-            <p class="text-secondary-600 mb-4">Plus de 200 chercheurs et industriels ont participé...</p>
-            <a href="/actualites/journee-recherche-2024" class="text-primary-600 font-medium">Lire la suite →</a>
-          </div>
-        </article>
       </div>
     </div>
   </section>
 </Layout>
-
-<script>
-  // Add smooth scrolling for internal links
-  document.addEventListener('DOMContentLoaded', () => {
-    const links = document.querySelectorAll('a[href^="#"]');
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-  });
-</script>

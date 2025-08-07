@@ -1,0 +1,205 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+export const prerender = false;
+
+const { id } = Astro.params;
+
+// Récupération de l'événement à modifier
+let event = null;
+let error = null;
+
+try {
+  const response = await fetch(`${Astro.url.origin}/api/events/${id}`);
+  const data = await response.json();
+  if (data.success) {
+    event = data.event;
+  } else {
+    error = data.error;
+  }
+} catch (err) {
+  error = err.message;
+}
+
+if (!event) {
+  return Astro.redirect('/admin/evenements');
+}
+---
+
+<Layout title="Modifier l'événement - Administration">
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="container py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <a href="/admin/evenements" class="text-secondary-600 hover:text-primary-600">← Retour</a>
+            <h1 class="text-2xl font-bold text-primary-800">Modifier l'événement</h1>
+          </div>
+          <div class="flex space-x-2">
+            <button type="button" class="btn btn-outline" onclick="saveAsDraft()">Enregistrer comme brouillon</button>
+            <button type="submit" form="event-form" class="btn btn-primary">Mettre à jour</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container py-8">
+      <form id="event-form" class="space-y-6">
+        <input type="hidden" name="id" value={event.id} />
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Contenu principal -->
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Informations de base -->
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Informations générales</h3>
+              <div class="space-y-4">
+                <div>
+                  <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Titre de l'événement *</label>
+                  <input 
+                    type="text" 
+                    id="title" 
+                    name="title" 
+                    required
+                    value={event.title}
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Nom de l'événement"
+                  />
+                </div>
+                <div>
+                  <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description *</label>
+                  <textarea 
+                    id="description" 
+                    name="description" 
+                    rows="4"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Description détaillée de l'événement"
+                  >{event.description}</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Date et lieu -->
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Date et lieu</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Date *</label>
+                  <input 
+                    type="date" 
+                    id="date" 
+                    name="date" 
+                    required
+                    value={event.date ? new Date(event.date).toISOString().split('T')[0] : ''}
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  />
+                </div>
+                <div>
+                  <label for="time" class="block text-sm font-medium text-gray-700 mb-2">Heure *</label>
+                  <input 
+                    type="time" 
+                    id="time" 
+                    name="time" 
+                    required
+                    value={event.time || ''}
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  />
+                </div>
+              </div>
+              <div class="mt-4">
+                <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Lieu *</label>
+                <input 
+                  type="text" 
+                  id="location" 
+                  name="location" 
+                  required
+                  value={event.location || ''}
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="Lieu de l'événement"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="space-y-6">
+            <!-- Statut -->
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Publication</h3>
+              <div class="space-y-4">
+                <div>
+                  <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                  <select 
+                    id="status" 
+                    name="status"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  >
+                    <option value="draft" {event.status === 'draft' ? 'selected' : ''}>Brouillon</option>
+                    <option value="published" {event.status === 'published' ? 'selected' : ''}>Publié</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Catégorie -->
+            <div class="bg-white p-6 rounded-lg shadow-soft">
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Catégorie</h3>
+              <select 
+                id="category" 
+                name="category"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              >
+                <option value="">Sélectionner une catégorie</option>
+                <option value="evenement" {event.category === 'evenement' ? 'selected' : ''}>Événement</option>
+                <option value="international" {event.category === 'international' ? 'selected' : ''}>International</option>
+                <option value="formation" {event.category === 'formation' ? 'selected' : ''}>Formation</option>
+                <option value="recherche" {event.category === 'recherche' ? 'selected' : ''}>Recherche</option>
+                <option value="etudiants" {event.category === 'etudiants' ? 'selected' : ''}>Étudiants</option>
+                <option value="infrastructure" {event.category === 'infrastructure' ? 'selected' : ''}>Infrastructure</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Sauvegarde en brouillon
+    function saveAsDraft() {
+      document.getElementById('status').value = 'draft';
+      document.getElementById('event-form').submit();
+    }
+
+    // Soumission du formulaire
+    document.getElementById('event-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        const response = await fetch('/api/events', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          alert('Événement mis à jour avec succès !');
+          window.location.href = '/admin/evenements';
+        } else {
+          alert('Erreur lors de la mise à jour : ' + result.message);
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la mise à jour de l\'événement');
+      }
+    });
+  </script>
+</Layout>
